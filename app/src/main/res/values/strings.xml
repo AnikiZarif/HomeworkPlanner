@@ -1,4 +1,18 @@
 <resources>
-    <string name="app_name">My Application</string>
+    <string name="app_name">Homework Planner</string>
     <string name="action_settings">Settings</string>
+    <string name="add_class">Add Class</string>
+    <string name="class_name">Class Name</string>
+    <string name="class_time">Class Time</string>
+    <string name="class_days">Class Days</string>
+    <string name="class_duration">Class Duration</string>
+    <string name="class_credit">Credit Hours</string>
+    <string-array name="credit_hours_options">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+    </string-array>
 </resources>
