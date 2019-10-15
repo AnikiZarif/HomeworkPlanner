@@ -1,6 +1,8 @@
-package com.example.myapplication;
+package com.mobileappdev.homeworkplanner;
 
 import android.os.Bundle;
+
+import com.example.myapplication.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import androidx.appcompat.app.AppCompatActivity;

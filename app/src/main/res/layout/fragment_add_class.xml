@@ -61,7 +61,8 @@
             android:id="@+id/time_button"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="@string/class_time" />
+            android:text="@string/class_time"
+            android:onClick="showTimePickerDialog" />
 
         <Button
             android:id="@+id/date_button"

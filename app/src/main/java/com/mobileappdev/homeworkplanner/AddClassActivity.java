@@ -1,4 +1,4 @@
-package com.example.myapplication;
+package com.mobileappdev.homeworkplanner;
 
 import androidx.fragment.app.Fragment;
 
