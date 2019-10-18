@@ -1,5 +1,5 @@
 package com.mobileappdev.homeworkplanner
-
+import kotlinx.android.synthetic.main.activity_main.view.*
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -22,9 +22,10 @@ class
 AddClassFragment: Fragment(), View.OnClickListener {
     private lateinit var mClassNameEditText: EditText
     private lateinit var mCreditHoursSpinner: Spinner
-    private val db = FirebaseFirestore.getInstance()
+    //private lateinit var mDeleteClassButton: Button
     //private lateinit var mAddClassButton: Button
-
+    private val db = FirebaseFirestore.getInstance()
+    
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val v: View
         val rotation = activity?.windowManager?.defaultDisplay?.rotation
@@ -48,11 +49,10 @@ AddClassFragment: Fragment(), View.OnClickListener {
         classTimeButton.setOnClickListener(this)
         val classDateButton : Button = v.findViewById(R.id.date_button)
         classDateButton.setOnClickListener(this)
-        val addClassButton = v.findViewById(R.id.add_button) as Button
+        val addClassButton : Button = v.findViewById(R.id.add_button)
         addClassButton.setOnClickListener{
             addToFirestore()
         }
-
         return v
     }
 
@@ -69,25 +69,34 @@ AddClassFragment: Fragment(), View.OnClickListener {
 
     fun addToFirestore(){
         var text = mClassNameEditText.text.toString()
-
+        var creds = mCreditHoursSpinner.getSelectedItem().toString().toInt()
         var item = hashMapOf(
-            "name" to text
+            "className" to text,
+            "creditHours" to creds
         )
         db.collection("classes")
             .add(item)
                 .addOnSuccessListener{
-                    documentReference -> Log.d("lifecycle", "Document added with ID: ${documentReference.id}")
+                    documentReference -> Log.d("TAG", "Document added with ID: ${documentReference.id}");
+                    Toast.makeText(activity!!,"Added Class",Toast.LENGTH_LONG).show();
                 }
                 .addOnFailureListener { e ->
-                    Log.w("lifecycle", "Error adding document", e)
+                    Log.w("TAG", "Error adding document", e)
                 }
-        //Toast.makeText(this@AddClassFragment,text.toString(),Toast.LENGTH_LONG).show()
+
     }
+ /*
+    fun deleteClass(view: View){
+        
+    }
+    
+  */
 
     override fun onClick(view: View) {
         when (view.id) {
             R.id.time_button -> showTimePickerDialog(view)
             R.id.date_button -> showDatePickerDialog(view)
+
         }
     }
 

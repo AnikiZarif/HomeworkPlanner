@@ -75,6 +75,11 @@
             android:layout_height="wrap_content"
             android:text="@string/add_class" />
 
+        <Button
+            android:id="@+id/delete_button"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Delete Class" />
 
     </LinearLayout>
 </ScrollView>
