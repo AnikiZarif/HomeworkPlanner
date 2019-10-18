@@ -33,6 +33,6 @@ public abstract class SingleFragmentActivity extends AppCompatActivity {
                     .add(R.id.fragment_container, fragment)
                     .commit();
         }
-        Log.d("lifecycle","onCreate invoked");
+        Log.d("lifecycle","onCreate invoked java");
     }
 }

@@ -69,6 +69,11 @@
             android:layout_height="wrap_content"
             android:text="@string/class_days" />
 
+        <Button
+            android:id="@+id/add_button"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/add_class" />
 
 
     </LinearLayout>
