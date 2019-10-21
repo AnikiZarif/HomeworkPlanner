@@ -7,7 +7,7 @@ import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import com.example.myapplication.R
 
-class AddClassActivity: AppCompatActivity() {
+class MainActivity: AppCompatActivity() {
 
     @LayoutRes
     private fun getLayoutResId(): Int {
