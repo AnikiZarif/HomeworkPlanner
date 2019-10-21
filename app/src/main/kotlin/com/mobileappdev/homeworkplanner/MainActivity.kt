@@ -11,13 +11,13 @@ class MainActivity: AppCompatActivity() {
 
     @LayoutRes
     private fun getLayoutResId(): Int {
-        return R.layout.activity_fragment
+        return R.layout.activity_main
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(getLayoutResId())
-
+        /*
         val fm = supportFragmentManager
         var fragment = fm.findFragmentById(R.id.fragment_container)
 
@@ -28,5 +28,7 @@ class MainActivity: AppCompatActivity() {
                     .commit()
         }
         Log.d("lifecycle", "onCreate invoked kotlin")
+
+         */
     }
 }
