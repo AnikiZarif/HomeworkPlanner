@@ -27,6 +27,8 @@ AddClassFragment: Fragment(), View.OnClickListener {
     private lateinit var mClassTimeButton : Button
     private lateinit var mDeleteClassButton : Button
     private val db = FirebaseFirestore.getInstance()
+
+    private val TAG = AddClassFragment::class.java!!.getSimpleName()
     
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val v: View
@@ -82,11 +84,11 @@ AddClassFragment: Fragment(), View.OnClickListener {
         db.collection("classes")
             .add(item)
                 .addOnSuccessListener{
-                    documentReference -> Log.d("TAG", "Document added with ID: ${documentReference.id}");
+                    documentReference -> Log.d(TAG, "Document added with ID: ${documentReference.id}");
                     Toast.makeText(activity!!,"Added Class",Toast.LENGTH_LONG).show();
                 }
                 .addOnFailureListener { e ->
-                    Log.w("TAG", "Error adding document", e)
+                    Log.w(TAG, "Error adding document", e)
                 }
 
     }

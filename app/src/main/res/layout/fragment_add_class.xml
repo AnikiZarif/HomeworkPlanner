@@ -8,7 +8,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        >
 
         <TextView
             android:layout_width="match_parent"
@@ -66,26 +67,30 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:orientation="horizontal"
-            android:padding="25dp">
+            android:padding="25dp"
+            android:textAllCaps="false">
 
             <Button
                 android:id="@+id/time_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Class Time"
-                android:visibility="visible" />
+                android:visibility="visible"
+                android:textAllCaps="false"/>
 
             <Button
                 android:id="@+id/date_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Class Days" />
+                android:text="Class Days"
+                android:textAllCaps="false"/>
 
             <Button
                 android:id="@+id/add_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Add Class" />
+                android:text="Add Class"
+                android:textAllCaps="false"/>
 
         </LinearLayout>
 
@@ -99,6 +104,7 @@
             android:layout_marginRight="24dp"
             android:layout_marginTop="24dp"
             android:padding="24dp"
-            android:text="Delete Class" />
+            android:text="Delete Class"
+            android:textAllCaps="false"/>
     </LinearLayout>
 </ScrollView>
