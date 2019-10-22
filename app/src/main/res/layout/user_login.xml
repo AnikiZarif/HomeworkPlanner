@@ -61,11 +61,6 @@
             android:text="New User"
             android:textAllCaps="false"
             />
-        <fragment
-            android:id="@+id/fragment_container"
-            android:name="com.mobileappdev.homeworkplanner.AddClassFragment"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
     </LinearLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

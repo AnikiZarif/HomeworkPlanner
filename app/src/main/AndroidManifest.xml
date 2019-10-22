@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="com.mobileappdev.homeworkplanner.MainActivity"
+            android:name="com.mobileappdev.homeworkplanner.LoginUserActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar" >
             <intent-filter>
@@ -18,14 +18,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name="com.mobileappdev.homeworkplanner.LoginUser"
-            android:label="Login User"
-            android:theme="@style/AppTheme.NoActionBar">
-            <intent-filter>
-                <action android:name="android.intent.action.LOGINUSER"/>
-            </intent-filter>
-        </activity>
+        <activity android:name="com.mobileappdev.homeworkplanner.AddClassActivity"></activity>
     </application>
 
 </manifest>

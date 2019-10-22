@@ -1,25 +1,17 @@
 package com.mobileappdev.homeworkplanner
-import kotlinx.android.synthetic.main.activity_main.view.*
+
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.Surface
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
-import android.widget.Button
-import android.widget.EditText
-import android.widget.Spinner
-import android.widget.Toast
+import android.widget.*
 import androidx.fragment.app.Fragment
 import com.example.myapplication.R
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.FirebaseFirestore
 
-class
-AddClassFragment: Fragment() {
+class AddClassFragment: Fragment(), View.OnClickListener {
     private lateinit var mClassNameEditText: EditText
     private lateinit var mCreditHoursSpinner: Spinner
     private lateinit var mAddClassButton: Button
@@ -49,35 +41,28 @@ AddClassFragment: Fragment() {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         mCreditHoursSpinner.adapter = adapter
 
-        val clickListener = View.OnClickListener {view ->
-            when (view.getId()) {
-                R.id.time_button -> showTimePickerDialog(v)
-                R.id.date_button -> showDatePickerDialog(v)
-                R.id.add_button -> addToFirestore()
-            }
-        }
         mClassTimeButton = v.findViewById(R.id.time_button)
-        mClassTimeButton.setOnClickListener(clickListener)
+        mClassTimeButton.setOnClickListener(this)
 
         mClassDateButton = v.findViewById(R.id.date_button)
-        mClassDateButton.setOnClickListener(clickListener)
+        mClassDateButton.setOnClickListener(this)
 
         mAddClassButton = v.findViewById(R.id.add_button)
-        mAddClassButton.setOnClickListener(clickListener)
+        mAddClassButton.setOnClickListener(this)
 
         mDeleteClassButton = v.findViewById(R.id.delete_button)
-        mDeleteClassButton.setOnClickListener(clickListener)
+        mDeleteClassButton.setOnClickListener(this)
 
         return v
     }
 
-    fun showTimePickerDialog(view: View) {
+    fun showTimePickerDialog() {
         val timePickerFragment = TimePickerFragment()
         timePickerFragment.show(activity!!.supportFragmentManager,"timePicker")
         //Log.d("lifecycle", "Timer invoked")
     }
 
-    fun showDatePickerDialog(view: View) {
+    fun showDatePickerDialog() {
         val datePickerFragment = DatePickerFragment()
         datePickerFragment.show(activity!!.supportFragmentManager,"datePicker")
     }
@@ -106,14 +91,12 @@ AddClassFragment: Fragment() {
     }
     
   */
-/*
-    override fun onClick() {
-        when (view.id) {
-            R.id.time_button -> showTimePickerDialog(view)
-            R.id.date_button -> showDatePickerDialog(view)
+    override fun onClick(v: View) {
+        when (v.id) {
+            R.id.time_button -> showTimePickerDialog()
+            R.id.date_button -> showDatePickerDialog()
             R.id.add_button -> addToFirestore()
         }
     }
-    */
 
 }
