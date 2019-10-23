@@ -68,9 +68,9 @@ class AddClassFragment: Fragment(), View.OnClickListener {
     }
 
     fun addToFirestore(){
-        var text = mClassNameEditText.text.toString()
-        var creds = mCreditHoursSpinner.getSelectedItem().toString().toInt()
-        var item = hashMapOf(
+        val text = mClassNameEditText.text.toString()
+        val creds = mCreditHoursSpinner.getSelectedItem().toString().toInt()
+        val item = hashMapOf(
             "className" to text,
             "creditHours" to creds
         )
@@ -85,17 +85,28 @@ class AddClassFragment: Fragment(), View.OnClickListener {
                 }
 
     }
- /*
-    fun deleteClass(view: View){
-        
+
+    fun deleteClass(){
+        val text = mClassNameEditText.text.toString()
+        db.collection("classes")
+                .whereEqualTo("className", text)
+                .get()
+                .addOnSuccessListener {documents ->
+                    db.collection("classes")
+                            .document(documents.documents[0].reference.id)
+                            .delete()
+                }
+                .addOnFailureListener { exception ->
+                    Log.w(TAG, "Error getting documents: ", exception)
+                }
     }
     
-  */
     override fun onClick(v: View) {
         when (v.id) {
             R.id.time_button -> showTimePickerDialog()
             R.id.date_button -> showDatePickerDialog()
             R.id.add_button -> addToFirestore()
+            R.id.delete_button -> deleteClass()
         }
     }
 
