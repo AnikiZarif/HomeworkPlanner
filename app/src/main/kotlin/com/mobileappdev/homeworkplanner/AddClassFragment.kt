@@ -32,7 +32,7 @@ class AddClassFragment: Fragment(), View.OnClickListener {
             inflater.inflate(R.layout.fragment_add_class, container, false)
         }
 
-        Log.d(TAG,"CLass ${v}")
+        Log.d(TAG,"AddClassFragment invoked")
         mClassNameEditText = v.findViewById(R.id.class_name_text)
         mCreditHoursSpinner = v.findViewById(R.id.credit_hours_spinner)
 

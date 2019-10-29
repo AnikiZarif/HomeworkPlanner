@@ -9,8 +9,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.myapplication.R
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.auth.AuthResult
+import com.google.firebase.auth.FirebaseAuth
 
 class LoginUserFragment: Fragment(), View.OnClickListener {
     private val TAG = LoginUserFragment::class.java.simpleName
@@ -20,9 +25,12 @@ class LoginUserFragment: Fragment(), View.OnClickListener {
     private lateinit var mSubmitButton : Button
     private lateinit var mNewUserButton : Button
 
+    private var mAuth = FirebaseAuth.getInstance()
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?):View? {
         val v: View
         val rotation = activity?.windowManager?.defaultDisplay?.rotation
+
         v = if (rotation == Surface.ROTATION_90 || rotation == Surface.ROTATION_270) {
             // TODO: Create add class landscape fragment
             inflater.inflate(R.layout.user_login, container, false)
@@ -54,25 +62,36 @@ class LoginUserFragment: Fragment(), View.OnClickListener {
     }
 
     fun openFragment(){
-//        val fm = supportFragmentManager
-//        var fragment = fm.findFragmentById(R.id.fragment_container)
-//
-//        Log.d(TAG,"HERE + ${fragment}")
-//        if (fragment == null) {
-//            fragment = AddClassFragment()
-//            Log.d(TAG,"HEREyyyyyyyyyy")
-//            fm.beginTransaction()
-//                    .add(R.id.fragment_container, fragment)
-//                    .commit()
-//        }
-        startActivity(Intent(activity, AddClassActivity::class.java))
-        activity?.finish()
+        Log.d(TAG, "hellloooooo")
+        val email = mUserNameText.text.toString()
+        val password = mPasswordText.text.toString()
+
+        if(email.equals("") || password.equals("")){
+            Toast.makeText(activity!!, "Please fill in email and password", Toast.LENGTH_LONG).show()
+
+        }else {
+            mAuth!!.signInWithEmailAndPassword(email!!, password!!)
+                    .addOnCompleteListener(activity!!) { task ->
+                        if (task.isSuccessful) {
+                            Log.d(TAG, "Open Fragment")
+                            startActivity(Intent(activity, AddClassActivity::class.java))
+                        } else {
+                            Log.d(TAG, "ERROR: Logging in the user")
+                            Toast.makeText(activity!!, "Added Class", Toast.LENGTH_LONG).show()
+                        }
+                    }
+        }
+    }
+
+    fun createUser(){
+        Log.d(TAG, "Create User")
+        startActivity(Intent(activity, AddUserActivity::class.java))
     }
 
     override fun onClick(v: View) {
         when (v.id) {
             R.id.reset -> resetText()
-            R.id.new_user -> null
+            R.id.new_user -> createUser()
             R.id.submit -> openFragment()
         }
     }

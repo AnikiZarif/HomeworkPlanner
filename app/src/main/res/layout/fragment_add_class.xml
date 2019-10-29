@@ -51,7 +51,7 @@
             android:layout_marginBottom="8dp"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
-            android:labelFor="@+id/credit_hours_spinner"
+            android:labelFor="@id/credit_hours_spinner"
             android:text="@string/class_credit"/>
 
         <Spinner
