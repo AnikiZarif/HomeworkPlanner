@@ -20,6 +20,7 @@
             android:layout_marginRight="16dp"
             android:layout_marginTop="16dp"
             android:text="@string/add_class"
+            android:textColor="#CE0F3D"
             android:textAlignment="center"
             android:textSize="24sp"/>
 
@@ -31,7 +32,7 @@
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
             android:labelFor="@id/class_name_text"
-            android:text="@string/class_name"/>
+            android:text="@string/class_name" />
 
         <EditText
             android:id="@+id/class_name_text"
@@ -76,7 +77,7 @@
                 android:layout_height="wrap_content"
                 android:text="Class Time"
                 android:visibility="visible"
-                android:textAllCaps="false"/>
+                android:textAllCaps="false" />
 
             <Button
                 android:id="@+id/date_button"

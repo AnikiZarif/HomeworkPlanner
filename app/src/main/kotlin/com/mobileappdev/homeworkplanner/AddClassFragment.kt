@@ -9,6 +9,9 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.fragment.app.Fragment
 import com.example.myapplication.R
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 
 class AddClassFragment: Fragment(), View.OnClickListener {
@@ -18,10 +21,11 @@ class AddClassFragment: Fragment(), View.OnClickListener {
     private lateinit var mClassDateButton : Button
     private lateinit var mClassTimeButton : Button
     private lateinit var mDeleteClassButton : Button
-    private val db = FirebaseFirestore.getInstance()
 
+    private val db = FirebaseFirestore.getInstance()
     private val TAG = AddClassFragment::class.java!!.getSimpleName()
-    
+    private var uid : String = ""
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?):View? {
         val v: View
         val rotation = activity?.windowManager?.defaultDisplay?.rotation
@@ -74,10 +78,15 @@ class AddClassFragment: Fragment(), View.OnClickListener {
             "className" to text,
             "creditHours" to creds
         )
-        db.collection("classes")
-            .add(item)
-                .addOnSuccessListener{
-                    documentReference -> Log.d(TAG, "Document added with ID: ${documentReference.id}");
+
+        if(FirebaseAuth.getInstance().currentUser != null){
+            uid = FirebaseAuth.getInstance().currentUser!!.uid
+            Log.d(TAG,"UID = ${uid}")
+        }
+        db.collection("user").document(uid).collection("classes")
+                .add(item)
+                .addOnSuccessListener{DocumentReference->
+                    Log.d(TAG, "Added class with ${DocumentReference.id}");
                     Toast.makeText(activity!!,"Added Class",Toast.LENGTH_LONG).show();
                 }
                 .addOnFailureListener { e ->

@@ -81,18 +81,26 @@ class AddUserFragment: Fragment(), View.OnClickListener {
                 "year" to year
         )
 
-        mAuth!!.createUserWithEmailAndPassword(email!!, password!!)
-                .addOnCompleteListener(activity!!){
-                    task ->
-                    if(task.isSuccessful){
-                        val uid = mAuth!!.currentUser!!.uid
-                        sendEmail()
-                        mFirestore.collection("user").document(uid).set(item)
-                    }else{
-                        Toast.makeText(activity!!, "Failed to create user ", Toast.LENGTH_LONG).show()
+        if(email.equals("") || password.equals("")){
+            Toast.makeText(activity!!, "Please fill in email and password", Toast.LENGTH_LONG).show()
+        }else if(!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()){
+            Toast.makeText(activity!!, "Please enter a valid email address", Toast.LENGTH_LONG).show()
+            mUserNameEditText.setText("")
+            mUserEmailEditText.setText("")
+            mUserPasswordEditText.setText("")
+            mUserRepeatPasswordEditText.setText("")
+        }else {
+            mAuth!!.createUserWithEmailAndPassword(email!!, password!!)
+                    .addOnCompleteListener(activity!!) { task ->
+                        if (task.isSuccessful) {
+                            val uid = mAuth!!.currentUser!!.uid
+                            sendEmail()
+                            mFirestore.collection("user").document(uid).set(item)
+                        } else {
+                            Toast.makeText(activity!!, "Failed to create user ", Toast.LENGTH_LONG).show()
+                        }
                     }
-                }
-
+        }
 
         Log.d(TAG,"Adding user")
     }
