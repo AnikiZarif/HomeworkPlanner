@@ -66,9 +66,9 @@ class AddClassFragment: Fragment(), View.OnClickListener {
         //Log.d("lifecycle", "Timer invoked")
     }
 
-    fun showDatePickerDialog() {
-        val datePickerFragment = DatePickerFragment()
-        datePickerFragment.show(activity!!.supportFragmentManager,"datePicker")
+    fun showDayPickerDialog() {
+        val dayOfWeekDialogFragment = DayOfWeekDialogFragment()
+        dayOfWeekDialogFragment.show(activity!!.supportFragmentManager, "dayPicker")
     }
 
     fun addToFirestore(){
@@ -81,7 +81,7 @@ class AddClassFragment: Fragment(), View.OnClickListener {
 
         if(FirebaseAuth.getInstance().currentUser != null){
             uid = FirebaseAuth.getInstance().currentUser!!.uid
-            Log.d(TAG,"UID = ${uid}")
+            Log.d(TAG,"UID = $uid")
         }
         db.collection("user").document(uid).collection("classes")
                 .add(item)
@@ -113,7 +113,7 @@ class AddClassFragment: Fragment(), View.OnClickListener {
     override fun onClick(v: View) {
         when (v.id) {
             R.id.time_button -> showTimePickerDialog()
-            R.id.date_button -> showDatePickerDialog()
+            R.id.date_button -> showDayPickerDialog()
             R.id.add_button -> addToFirestore()
             R.id.delete_button -> deleteClass()
         }

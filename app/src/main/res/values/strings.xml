@@ -7,6 +7,18 @@
     <string name="class_days">Class Days</string>
     <string name="class_duration">Class Duration</string>
     <string name="class_credit">Credit Hours</string>
+    <string name="pick_day">Pick Class Days</string>
+    <string name="cancel">Cancel</string>
+    <string name="ok">OK</string>
+    <string-array name="days_of_week">
+        <item>Monday</item>
+        <item>Tuesday</item>
+        <item>Wednesday</item>
+        <item>Thursday</item>
+        <item>Friday</item>
+        <item>Saturday</item>
+        <item>Sunday</item>
+    </string-array>
     <string-array name="credit_hours_options">
         <item>0</item>
         <item>1</item>
