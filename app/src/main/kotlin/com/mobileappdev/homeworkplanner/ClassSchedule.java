@@ -20,7 +20,7 @@ public class ClassSchedule {
     private ClassSchedule(Context context){
         mClasses = new ArrayList<>();
 
-        // TODO: Populate with classes
+        // TODO: Populate with classes from database
 
 
         // Put dummy classes in there in the meantime
