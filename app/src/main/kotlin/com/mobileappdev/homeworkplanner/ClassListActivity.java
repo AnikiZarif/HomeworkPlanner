@@ -13,14 +13,14 @@ public class ClassListActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_class_list);
+        setContentView(R.layout.activity_fragment);
 
         FragmentManager fm = getSupportFragmentManager();
-        Fragment fragment = fm.findFragmentById(R.id.class_list_fragment_container);
+        Fragment fragment = fm.findFragmentById(R.id.fragment_container);
 
         if (fragment == null){
             fragment = new ClassListFragment();
-            fm.beginTransaction().add(R.id.class_list_fragment_container, fragment).commit();
+            fm.beginTransaction().add(R.id.fragment_container, fragment).commit();
         }
     }
 }
