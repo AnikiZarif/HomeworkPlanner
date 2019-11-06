@@ -7,6 +7,7 @@
     <string name="class_days">Class Days</string>
     <string name="class_duration">Class Duration</string>
     <string name="class_credit">Credit Hours</string>
+    <string name="class_list_title">Class Schedule</string>
     <string-array name="credit_hours_options">
         <item>0</item>
         <item>1</item>
