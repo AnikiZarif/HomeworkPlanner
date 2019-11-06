@@ -20,7 +20,7 @@
         </activity>
         <activity android:name="com.mobileappdev.homeworkplanner.AddUserActivity"></activity>
         <activity android:name="com.mobileappdev.homeworkplanner.AddClassActivity"></activity>
-
+        <activity android:name="com.mobileappdev.homeworkplanner.ClassListActivity"></activity>
     </application>
 
 </manifest>

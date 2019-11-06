@@ -109,6 +109,7 @@ class AddClassFragment: Fragment(), View.OnClickListener {
                     Log.w(TAG, "Error getting documents: ", exception)
                 }
     }
+
     
     override fun onClick(v: View) {
         when (v.id) {

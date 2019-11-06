@@ -107,5 +107,6 @@
             android:padding="24dp"
             android:text="Delete Class"
             android:textAllCaps="false"/>
+
     </LinearLayout>
 </ScrollView>

@@ -1,9 +1,12 @@
 package com.mobileappdev.homeworkplanner;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,6 +24,7 @@ public class ClassListFragment extends Fragment {
 
     private RecyclerView mCrimeRecyclerView;
     private ClassAdapter mAdapter;
+    private Button mAddClassButton;
 
     @Nullable
     @Override
@@ -29,6 +33,14 @@ public class ClassListFragment extends Fragment {
 
         mCrimeRecyclerView = (RecyclerView) view.findViewById(R.id.class_recycler_view);
         mCrimeRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mAddClassButton = (Button) view.findViewById(R.id.add_class_button);
+        mAddClassButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                Intent intent = new Intent(getActivity(), AddClassActivity.class);
+                startActivity(intent);
+            }}
+        );
 
         updateUI();
 
