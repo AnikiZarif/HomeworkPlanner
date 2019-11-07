@@ -78,7 +78,7 @@ class LoginUserFragment: Fragment(), View.OnClickListener {
                     .addOnCompleteListener(activity!!) { task ->
                         if (task.isSuccessful) {
                             Log.d(TAG, "Open Fragment")
-                            startActivity(Intent(activity, ClassListActivity::class.java))
+                            startActivity(Intent(activity, PortraitCalendarActivity::class.java))
                         } else {
                             Log.d(TAG, "ERROR: Logging in the user")
                             Toast.makeText(activity!!, "Added Class", Toast.LENGTH_LONG).show()
