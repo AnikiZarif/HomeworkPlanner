@@ -2,12 +2,13 @@ package com.mobileappdev.homeworkplanner;
 
 import java.sql.Time;
 import java.time.DayOfWeek;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Class {
     private String mTitile;
-    private List<DayOfWeek> mDaysOfWeek;
-    private Time mTimeOfDay;
+    private ArrayList<String> mDaysOfWeek;
+    private String mTimeOfDay;
 
     public String getTitile() {
         return mTitile;
@@ -17,11 +18,11 @@ public class Class {
         mTitile = titile;
     }
 
-    public List<DayOfWeek> getDaysOfWeek() { return mDaysOfWeek; }
+    public ArrayList<String> getDaysOfWeek() { return mDaysOfWeek; }
 
-    public void setDaysOfWeek(List<DayOfWeek> daysOfWeek){ mDaysOfWeek = daysOfWeek; }
+    public void setDaysOfWeek(ArrayList<String> daysOfWeek){ mDaysOfWeek = daysOfWeek; }
 
-    public Time getTimeOfDay() { return mTimeOfDay; }
+    public String getTimeOfDay() { return mTimeOfDay; }
 
-    public void setTimeOfDay(Time timeOfDay) { mTimeOfDay = timeOfDay; }
+    public void setTimeOfDay(String timeOfDay) { mTimeOfDay = timeOfDay; }
 }
