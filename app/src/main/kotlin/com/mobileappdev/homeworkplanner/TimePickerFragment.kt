@@ -2,6 +2,7 @@ package com.mobileappdev.homeworkplanner
 
 import android.app.Dialog
 import android.app.TimePickerDialog
+import android.content.Intent
 import android.os.Bundle
 import android.text.format.DateFormat
 import android.widget.TimePicker
@@ -21,6 +22,18 @@ class TimePickerFragment : DialogFragment(), TimePickerDialog.OnTimeSetListener 
     }
 
     override fun onTimeSet(view: TimePicker, hourOfDay: Int, minute: Int) {
-        // Do something with the time chosen by the user
+        val intent = Intent()
+        var minuteStr = minute.toString()
+        if (minute < 10) {
+            minuteStr = "0" + minute.toString()
+        }
+        val time = hourOfDay.toString() + ":" + minuteStr
+        var name = "com.mobileappdev.homeworkplanner.starttime"
+        if (this.tag == "endTime") {
+            name = "com.mobileappdev.homeworkplanner.endtime"
+        }
+        intent.putExtra(name, time)
+        val tf = targetFragment as AddClassFragment
+        tf.onTimePickerReturn(intent, name)
     }
 }

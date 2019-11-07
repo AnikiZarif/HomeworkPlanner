@@ -18,10 +18,13 @@ import com.google.firebase.firestore.FirebaseFirestore
 class AddClassFragment: Fragment(), View.OnClickListener {
     private lateinit var mClassNameEditText: EditText
     private lateinit var mDaysTextView: TextView
+    private lateinit var mStartTimeTextView: TextView
+    private lateinit var mEndTimeTextView: TextView
     private lateinit var mCreditHoursSpinner: Spinner
     private lateinit var mAddClassButton: Button
     private lateinit var mClassDateButton : Button
-    private lateinit var mClassTimeButton : Button
+    private lateinit var mClassStartTimeButton : Button
+    private lateinit var mClassEndTimeButton : Button
     private lateinit var mDeleteClassButton : Button
     private lateinit var classArray: ArrayList<String>
 
@@ -43,14 +46,19 @@ class AddClassFragment: Fragment(), View.OnClickListener {
         mClassNameEditText = v.findViewById(R.id.class_name_text)
         mCreditHoursSpinner = v.findViewById(R.id.credit_hours_spinner)
         mDaysTextView = v.findViewById(R.id.days_text)
+        mStartTimeTextView = v.findViewById(R.id.start_time_text)
+        mEndTimeTextView = v.findViewById(R.id.end_time_text)
 
         val adapter = ArrayAdapter.createFromResource(context!!,
                 R.array.credit_hours_options, android.R.layout.simple_spinner_item)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         mCreditHoursSpinner.adapter = adapter
 
-        mClassTimeButton = v.findViewById(R.id.time_button)
-        mClassTimeButton.setOnClickListener(this)
+        mClassStartTimeButton = v.findViewById(R.id.start_time_button)
+        mClassStartTimeButton.setOnClickListener(this)
+
+        mClassEndTimeButton = v.findViewById(R.id.end_time_button)
+        mClassEndTimeButton.setOnClickListener(this)
 
         mClassDateButton = v.findViewById(R.id.date_button)
         mClassDateButton.setOnClickListener(this)
@@ -64,9 +72,10 @@ class AddClassFragment: Fragment(), View.OnClickListener {
         return v
     }
 
-    fun showTimePickerDialog() {
+    fun showTimePickerDialog(tag: String) {
         val timePickerFragment = TimePickerFragment()
-        timePickerFragment.show(activity!!.supportFragmentManager,"timePicker")
+        timePickerFragment.setTargetFragment(this, 0)
+        timePickerFragment.show(activity!!.supportFragmentManager, tag)
         //Log.d("lifecycle", "Timer invoked")
     }
 
@@ -76,20 +85,28 @@ class AddClassFragment: Fragment(), View.OnClickListener {
         dayOfWeekDialogFragment.show(activity!!.supportFragmentManager, "dayPicker")
     }
 
+    fun onTimePickerReturn(data: Intent, name: String) {
+        if (name == "com.mobileappdev.homeworkplanner.starttime") {
+            mStartTimeTextView.text = data.getStringExtra(name)
+        } else {
+            mEndTimeTextView.text = data.getStringExtra(name)
+        }
+    }
+
     fun onDayPickerReturn(data: Intent) {
         val daysPicked = data.getIntegerArrayListExtra("com.mobileappdev.homeworkplanner.days")
         classArray = ArrayList()
         var count = 0
         var day = "MONDAY"
-        daysPicked.forEach {
+        daysPicked!!.forEach {
             when(it) {
-                1 -> day = "MONDAY"
-                2 -> day = "TUESDAY"
-                3 -> day = "WEDNESDAY"
-                4 -> day = "THURSDAY"
-                5 -> day = "FRIDAY"
-                6 -> day = "SATURDAY"
-                7 -> day = "SUNDAY"
+                0 -> day = "MONDAY"
+                1 -> day = "TUESDAY"
+                2 -> day = "WEDNESDAY"
+                3 -> day = "THURSDAY"
+                4 -> day = "FRIDAY"
+                5 -> day = "SATURDAY"
+                6 -> day = "SUNDAY"
             }
             classArray.add(day)
             if (count == 0) {
@@ -102,11 +119,16 @@ class AddClassFragment: Fragment(), View.OnClickListener {
     }
 
     fun addToFirestore(){
-        val text = mClassNameEditText.text.toString()
-        val creds = mCreditHoursSpinner.getSelectedItem().toString().toInt()
+        val className = mClassNameEditText.text.toString()
+        val creds = mCreditHoursSpinner.selectedItem.toString().toInt()
+        val classStartTime = mStartTimeTextView.text.toString()
+        val classEndTime = mEndTimeTextView.text.toString()
         val item = hashMapOf(
-            "className" to text,
-            "creditHours" to creds
+                "className" to className,
+                "creditHours" to creds,
+                "dayOfWeek" to classArray,
+                "classStartTime" to classStartTime,
+                "classEndTime" to classEndTime
         )
 
         if(FirebaseAuth.getInstance().currentUser != null){
@@ -143,7 +165,8 @@ class AddClassFragment: Fragment(), View.OnClickListener {
     
     override fun onClick(v: View) {
         when (v.id) {
-            R.id.time_button -> showTimePickerDialog()
+            R.id.start_time_button -> showTimePickerDialog("startTime")
+            R.id.end_time_button -> showTimePickerDialog("endTime")
             R.id.date_button -> showDayPickerDialog()
             R.id.add_button -> addToFirestore()
             R.id.delete_button -> deleteClass()
