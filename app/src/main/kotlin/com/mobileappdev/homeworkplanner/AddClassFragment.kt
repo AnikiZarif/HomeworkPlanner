@@ -1,5 +1,6 @@
 package com.mobileappdev.homeworkplanner
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -16,11 +17,13 @@ import com.google.firebase.firestore.FirebaseFirestore
 
 class AddClassFragment: Fragment(), View.OnClickListener {
     private lateinit var mClassNameEditText: EditText
+    private lateinit var mDaysTextView: TextView
     private lateinit var mCreditHoursSpinner: Spinner
     private lateinit var mAddClassButton: Button
     private lateinit var mClassDateButton : Button
     private lateinit var mClassTimeButton : Button
     private lateinit var mDeleteClassButton : Button
+    private lateinit var classArray: ArrayList<String>
 
     private val db = FirebaseFirestore.getInstance()
     private val TAG = AddClassFragment::class.java!!.getSimpleName()
@@ -39,6 +42,7 @@ class AddClassFragment: Fragment(), View.OnClickListener {
         Log.d(TAG,"AddClassFragment invoked")
         mClassNameEditText = v.findViewById(R.id.class_name_text)
         mCreditHoursSpinner = v.findViewById(R.id.credit_hours_spinner)
+        mDaysTextView = v.findViewById(R.id.days_text)
 
         val adapter = ArrayAdapter.createFromResource(context!!,
                 R.array.credit_hours_options, android.R.layout.simple_spinner_item)
@@ -68,7 +72,33 @@ class AddClassFragment: Fragment(), View.OnClickListener {
 
     fun showDayPickerDialog() {
         val dayOfWeekDialogFragment = DayOfWeekDialogFragment()
+        dayOfWeekDialogFragment.setTargetFragment(this, 0)
         dayOfWeekDialogFragment.show(activity!!.supportFragmentManager, "dayPicker")
+    }
+
+    fun onDayPickerReturn(data: Intent) {
+        val daysPicked = data.getIntegerArrayListExtra("com.mobileappdev.homeworkplanner.days")
+        classArray = ArrayList()
+        var count = 0
+        var day = "MONDAY"
+        daysPicked.forEach {
+            when(it) {
+                1 -> day = "MONDAY"
+                2 -> day = "TUESDAY"
+                3 -> day = "WEDNESDAY"
+                4 -> day = "THURSDAY"
+                5 -> day = "FRIDAY"
+                6 -> day = "SATURDAY"
+                7 -> day = "SUNDAY"
+            }
+            classArray.add(day)
+            if (count == 0) {
+                mDaysTextView.text = day
+            } else {
+                mDaysTextView.text = mDaysTextView.text.toString() + "," + day
+            }
+            count++
+        }
     }
 
     fun addToFirestore(){
