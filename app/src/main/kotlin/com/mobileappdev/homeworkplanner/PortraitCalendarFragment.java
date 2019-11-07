@@ -23,7 +23,7 @@ public class PortraitCalendarFragment extends Fragment {
 
     private RecyclerView mAssignmentRecyclerView;
     private AssignmentAdapter mAdapter;
-    private Button mAddClassButton;
+    private Button mAddAssignmentButton;
 
     @Nullable
     @Override
@@ -40,57 +40,57 @@ public class PortraitCalendarFragment extends Fragment {
 
     private class AssignmentHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private TextView mTitleTextView;
-        private Class mClass;
+        private Assignment mAssignment;
 
 
         @Override
         public void onClick(View view) {
-            Toast.makeText(getActivity(), mClass.getTitile() + " clicked!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), mAssignment.getName() + " clicked!", Toast.LENGTH_SHORT).show();
         }
 
-        public ClassHolder(LayoutInflater inflater, ViewGroup parent){
-            super(inflater.inflate(R.layout.list_item_class, parent, false));
+        public AssignmentHolder(LayoutInflater inflater, ViewGroup parent){
+            super(inflater.inflate(R.layout.list_item_assignment, parent, false));
             itemView.setOnClickListener(this);
 
-            mTitleTextView = (TextView)itemView.findViewById(R.id.class_title);
+            mTitleTextView = (TextView)itemView.findViewById(R.id.assignment_title);
         }
 
-        public void bind(Class aClass){
-            mClass = aClass;
-            mTitleTextView.setText(mClass.getTitile());
+        public void bind(Assignment assignment){
+            mAssignment = assignment;
+            mTitleTextView.setText(mAssignment.getName());
         }
     }
 
     private void updateUI(){
-        ClassSchedule classSchedule = ClassSchedule.get(getActivity());
-        List<Class> classes = classSchedule.getClasses();
+        AssignmentList assignmentList = AssignmentList.get(getActivity());
+        List<Assignment> assignments = assignmentList.getAssignments();
 
-        mAdapter = new ClassListFragment.ClassAdapter(classes);
+        mAdapter = new AssignmentAdapter(assignments);
         mAssignmentRecyclerView.setAdapter(mAdapter);
     }
 
     private class AssignmentAdapter extends RecyclerView.Adapter<AssignmentHolder>{
-        private List<Class> mClasses;
+        private List<Assignment> mAssignments;
 
-        public ClassAdapter(List<Class> aClasses) { mClasses = aClasses; }
+        public AssignmentAdapter(List<Assignment> assignments) { mAssignments = assignments; }
 
         @NonNull
         @Override
-        public ClassListFragment.ClassHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        public AssignmentHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
 
-            return new ClassListFragment.ClassHolder(layoutInflater, parent);
+            return new AssignmentHolder(layoutInflater, parent);
         }
 
         @Override
-        public void onBindViewHolder(@NonNull ClassListFragment.ClassHolder holder, int position) {
-            Class aClass = mClasses.get(position);
-            holder.bind(aClass);
+        public void onBindViewHolder(@NonNull AssignmentHolder holder, int position) {
+            Assignment assignment = mAssignments.get(position);
+            holder.bind(assignment);
         }
 
         @Override
         public int getItemCount() {
-            return mClasses.size();
+            return mAssignments.size();
         }
     }
 }

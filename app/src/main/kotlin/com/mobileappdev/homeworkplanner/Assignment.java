@@ -8,7 +8,7 @@ import java.util.List;
 public class Assignment {
     private String mName;
     private Date mDueDate;
-    private Class mClass;
+    private Class mParentClass;
     private List<Date> mWorkPeriod;
 
     public String getName() {
@@ -27,14 +27,12 @@ public class Assignment {
         mDueDate = dueDate;
     }
 
-    @NonNull
-    @Override
-    public Class getClass() {
-        return mClass;
+    public Class getParentClass() {
+        return mParentClass;
     }
 
-    public void setClass(Class aClass) {
-        mClass = aClass;
+    public void setParentClass(Class parentClass) {
+        mParentClass = parentClass;
     }
 
     public List<Date> getWorkPeriod() {

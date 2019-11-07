@@ -22,6 +22,7 @@
         <activity android:name="com.mobileappdev.homeworkplanner.AddClassActivity"></activity>
         <activity android:name="com.mobileappdev.homeworkplanner.ClassListActivity"></activity>
         <activity android:name="com.mobileappdev.homeworkplanner.AddAssignActivity"></activity>
+        <activity android:name="com.mobileappdev.homeworkplanner.PortraitCalendarActivity"></activity>
     </application>
 
 </manifest>

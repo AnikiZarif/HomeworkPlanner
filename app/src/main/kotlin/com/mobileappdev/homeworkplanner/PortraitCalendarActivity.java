@@ -9,7 +9,7 @@ import androidx.fragment.app.FragmentManager;
 
 import com.example.myapplication.R;
 
-public class PortaitCalendarActivity  extends AppCompatActivity {
+public class PortraitCalendarActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
