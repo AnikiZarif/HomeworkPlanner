@@ -1,5 +1,6 @@
 package com.mobileappdev.homeworkplanner
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -7,20 +8,21 @@ import android.view.Surface
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import androidx.fragment.app.Fragment
 import com.example.myapplication.R
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
-class AddAssignFragment: Fragment(), View.OnClickListener {
+class AddAssignFragment: ClassAssignFragment(), View.OnClickListener {
     private lateinit var mAssignNameEditText: EditText
     private lateinit var mImportanceSpinner: Spinner
     private lateinit var mAddClassButton: Button
     private lateinit var mDueDateButton : Button
     private lateinit var mDueTimeButton : Button
+    private lateinit var mDueDateTextView: TextView
+    private lateinit var mDueTimeTextView: TextView
 
     private val db = FirebaseFirestore.getInstance()
-    private val TAG = AddAssignFragment::class.java!!.getSimpleName()
+    private val TAG = AddAssignFragment::class.java.simpleName
     private var uid : String = ""
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?):View? {
@@ -33,9 +35,9 @@ class AddAssignFragment: Fragment(), View.OnClickListener {
             inflater.inflate(R.layout.fragment_add_assign, container, false)
         }
 
-        Log.d(TAG,"AddClassFragment invoked")
+        Log.d(TAG,"AddAssignFragment invoked")
         mAssignNameEditText = v.findViewById(R.id.assign_name_text)
-        mImportanceSpinner = v.findViewById(R.id.credit_hours_spinner)
+        mImportanceSpinner = v.findViewById(R.id.importance_spinner)
 
         val years = arrayOf("Very Important", "Important", "Normal")
         val adapter = ArrayAdapter(context!!, android.R.layout.simple_spinner_item, years)
@@ -43,59 +45,68 @@ class AddAssignFragment: Fragment(), View.OnClickListener {
 
         mImportanceSpinner.adapter = adapter
 
-        mDueTimeButton = v.findViewById(R.id.time_button)
+        mDueTimeButton = v.findViewById(R.id.due_time_button)
         mDueTimeButton.setOnClickListener(this)
 
-        mDueDateButton = v.findViewById(R.id.date_button)
+        mDueTimeTextView = v.findViewById(R.id.due_time_text)
+
+        mDueDateButton = v.findViewById(R.id.due_date_button)
         mDueDateButton.setOnClickListener(this)
+
+        mDueDateTextView = v.findViewById(R.id.due_date_text)
 
         mAddClassButton = v.findViewById(R.id.add_assign)
         mAddClassButton.setOnClickListener(this)
 
 
         return v
+    }
+
+    override fun onTimePickerReturn(data: Intent, name: String) {
+        mDueTimeTextView.text = data.getStringExtra(name)
+    }
+
+    fun showDatePickerDialog() {
+        val datePickerFragment = DatePickerFragment()
+        datePickerFragment.setTargetFragment(this, 0)
+        datePickerFragment.show(activity!!.supportFragmentManager, "datePicker")
+    }
+
+    fun onDatePickerReturn(data: Intent, name: String) {
+        mDueDateTextView.text = data.getStringExtra(name)
+    }
+
+    override fun addToFirestore(){
+        val assignName = mAssignNameEditText.text.toString()
+        val imp = mImportanceSpinner.selectedItem.toString()
+        val dueTime = mDueTimeTextView.text.toString()
+        val dueDate = mDueDateTextView.text.toString()
+        val item = hashMapOf(
+                "assignName" to assignName,
+                "importance" to imp,
+                "dueTime" to dueTime,
+                "dueDate" to dueDate
+        )
+        //NEED TO ADJUST THIS SO WE CAN ADD ASSIGNMENT UNDER A CLASS
+        if(FirebaseAuth.getInstance().currentUser != null){
+            uid = FirebaseAuth.getInstance().currentUser!!.uid
         }
+        db.collection("user").document(uid).collection("classes")
+                .add(item)
+                .addOnSuccessListener{DocumentReference->
+                    Log.d(TAG, "Added assignment with ${DocumentReference.id}")
+                    Toast.makeText(activity!!,"Added Assignment",Toast.LENGTH_LONG).show()
+                }
+                .addOnFailureListener { e ->
+                    Log.w(TAG, "Error adding document", e)
+                }
+    }
 
-
-        fun showTimePickerDialog() {
-            val timePickerFragment = TimePickerFragment()
-            timePickerFragment.show(activity!!.supportFragmentManager,"timePicker")
-            //Log.d("lifecycle", "Timer invoked")
-        }
-
-        fun showDayPickerDialog() {
-            val dayOfWeekDialogFragment = DayOfWeekDialogFragment()
-            dayOfWeekDialogFragment.show(activity!!.supportFragmentManager, "dayPicker")
-        }
-
-        fun addToFirestore(){
-            val text = mAssignNameEditText.text.toString()
-            val imp = mImportanceSpinner.getSelectedItem().toString()
-            //val dueTime = mDueTimeButton.
-            val item = hashMapOf(
-                    "assign_name" to text,
-                    "imp" to imp
-            )
-
-            //NEED TO ADJUST THIS SO WE CAN ADD ASSIGNMENT UNDER A CLASS
-            if(FirebaseAuth.getInstance().currentUser != null){
-                uid = FirebaseAuth.getInstance().currentUser!!.uid
-            }
-            db.collection("user").document(uid).collection("classes")
-                    .add(item)
-                    .addOnSuccessListener{DocumentReference->
-                        Log.d(TAG, "Added class with ${DocumentReference.id}");
-                        Toast.makeText(activity!!,"Added Class",Toast.LENGTH_LONG).show();
-                    }
-                    .addOnFailureListener { e ->
-                        Log.w(TAG, "Error adding document", e)
-                    }
-        }
-        override fun onClick(v: View) {
-            when (v.id) {
-                R.id.time_button -> showTimePickerDialog()
-                R.id.date_button -> showDayPickerDialog()
-                R.id.add_button -> addToFirestore()
-            }
+    override fun onClick(v: View) {
+        when (v.id) {
+            R.id.due_time_button -> showTimePickerDialog("dueTime")
+            R.id.due_date_button -> showDatePickerDialog()
+            R.id.add_button -> addToFirestore()
         }
     }
+}
