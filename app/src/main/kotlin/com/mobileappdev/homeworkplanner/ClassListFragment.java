@@ -54,7 +54,7 @@ public class ClassListFragment extends Fragment {
 
         @Override
         public void onClick(View view) {
-            Toast.makeText(getActivity(), mClass.getTitile() + " clicked!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), mClass.getClassName() + " clicked!", Toast.LENGTH_SHORT).show();
         }
 
         public ClassHolder(LayoutInflater inflater, ViewGroup parent){
@@ -66,7 +66,7 @@ public class ClassListFragment extends Fragment {
 
         public void bind(Class aClass){
             mClass = aClass;
-            mTitleTextView.setText(mClass.getTitile());
+            mTitleTextView.setText(mClass.getClassName());
         }
     }
 

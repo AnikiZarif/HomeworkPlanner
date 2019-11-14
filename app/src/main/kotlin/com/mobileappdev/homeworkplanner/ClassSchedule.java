@@ -35,8 +35,10 @@ public class ClassSchedule {
     private void createClass(Map<String, Object> dataMap) {
         Class aClass = new Class();
         aClass.setDaysOfWeek((ArrayList<String>) dataMap.get("dayOfWeek"));
-        aClass.setTitile((String) dataMap.get("className"));
-        aClass.setTimeOfDay((String) dataMap.get("classStartTime"));
+        aClass.setClassName((String) dataMap.get("className"));
+        aClass.setStartTime((String) dataMap.get("classStartTime"));
+        aClass.setEndTime((String) dataMap.get("classEndTime"));
+        aClass.setCreditHours((int) dataMap.get("creditHours"));
         mClasses.add(aClass);
     }
 
@@ -62,6 +64,16 @@ public class ClassSchedule {
                         }
                     }
                 });
+    }
+
+    public void addClass(String className, String startTime, String endTime, ArrayList<String> daysWeek,
+                    int creditHours)
+    {
+        Class aClass = new Class();
+        aClass.setClassName(className);
+        aClass.setStartTime(startTime);
+        aClass.setEndTime(endTime);
+        aClass.setDaysOfWeek(daysWeek);
     }
 
     public List<Class> getClasses(){ return mClasses; }
