@@ -28,6 +28,7 @@
         <item>Saturday</item>
         <item>Sunday</item>
     </string-array>
+    <string name="day_list">%1$s, %2$s</string>
     <string name="class_list_title">Class Schedule</string>
     <string-array name="credit_hours_options">
         <item>0</item>

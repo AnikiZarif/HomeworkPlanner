@@ -69,7 +69,7 @@ class AddClassFragment: ClassAssignFragment(), View.OnClickListener {
         return v
     }
 
-    fun showDayPickerDialog() {
+    private fun showDayPickerDialog() {
         val dayOfWeekDialogFragment = DayOfWeekDialogFragment()
         dayOfWeekDialogFragment.setTargetFragment(this, 0)
         dayOfWeekDialogFragment.show(activity!!.supportFragmentManager, "dayPicker")
@@ -93,7 +93,7 @@ class AddClassFragment: ClassAssignFragment(), View.OnClickListener {
             if (count == 0) {
                 mDaysTextView.text = dayArray[it]
             } else {
-                mDaysTextView.text = mDaysTextView.text.toString() + "," + dayArray[it]
+                mDaysTextView.text = getString(R.string.day_list, mDaysTextView.text, dayArray[it])
             }
             count++
         }

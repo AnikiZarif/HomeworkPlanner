@@ -7,5 +7,5 @@ class Class {
     var daysOfWeek: ArrayList<String>? = null
     var startTime: String? = null
     var endTime: String? = null
-    var creditHours: Int = 0
+    var creditHours: Long = 0
 }

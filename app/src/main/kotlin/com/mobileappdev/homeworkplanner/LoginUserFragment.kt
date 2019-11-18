@@ -70,12 +70,11 @@ class LoginUserFragment: Fragment(), View.OnClickListener {
             mUserNameText.setText("")
             mPasswordText.setText("")
         }else {
-
             mAuth.signInWithEmailAndPassword(email, password)
                     .addOnCompleteListener(activity!!) { task ->
                         if (task.isSuccessful) {
                             Log.d(TAG, "Open Fragment")
-                            startActivity(Intent(activity, AddClassActivity::class.java))
+                            startActivity(Intent(activity, ClassListActivity::class.java))
                         } else {
                             Log.d(TAG, "ERROR: Logging in the user")
                             Toast.makeText(activity!!, "Unable to Login", Toast.LENGTH_LONG).show()
