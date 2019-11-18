@@ -21,8 +21,8 @@ class ClassInfoActivity: AppCompatActivity() {
         var fragment = fm.findFragmentById(R.id.fragment_container)
 
         if (fragment == null) {
-            val className = intent.extras!!.getString("className")!!
-            fragment = ClassInfoFragment.newInstance(className)
+            val classInfo = intent.extras!!.getBundle("classInfo")!!
+            fragment = ClassInfoFragment.newInstance(classInfo)
             fm.beginTransaction()
                     .add(R.id.fragment_container, fragment)
                     .commit()

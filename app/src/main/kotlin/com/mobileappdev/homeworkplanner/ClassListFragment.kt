@@ -45,7 +45,14 @@ class ClassListFragment : Fragment() {
 
         override fun onClick(view: View) {
             val classInfoAct = Intent(activity, ClassInfoActivity::class.java)
-            classInfoAct.putExtra("className", mClass!!.className)
+            val bundle = Bundle().apply {
+                putString("className", mClass!!.className)
+                putString("startTime", mClass!!.startTime)
+                putString("endTime", mClass!!.endTime)
+                putLong("creditHours", mClass!!.creditHours)
+                putStringArrayList("classDays", mClass!!.daysOfWeek)
+            }
+            classInfoAct.putExtra("classInfo", bundle)
             startActivity(classInfoAct)
         }
 

@@ -152,18 +152,5 @@
             android:text="@string/add_class"
             android:textAllCaps="false" />
 
-        <Button
-            android:id="@+id/delete_button"
-            android:gravity="center"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="2dp"
-            android:layout_marginLeft="24dp"
-            android:layout_marginRight="24dp"
-            android:layout_marginTop="24dp"
-            android:padding="24dp"
-            android:text="@string/delete_class"
-            android:textAllCaps="false"/>
-
     </LinearLayout>
 </ScrollView>

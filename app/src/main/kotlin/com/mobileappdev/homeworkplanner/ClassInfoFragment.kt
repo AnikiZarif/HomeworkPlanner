@@ -6,27 +6,28 @@ import android.view.LayoutInflater
 import android.view.Surface
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.example.myapplication.R
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 
 class ClassInfoFragment: Fragment(), View.OnClickListener {
     private lateinit var mClassNameTextView: TextView
-    private lateinit var mClassNameInfoTextView: TextView
+    private lateinit var mClassStartTimeInfoTextView: TextView
+    private lateinit var mClassEndTimeInfoTextView: TextView
+    private lateinit var mClassDaysInfoTextView: TextView
+    private lateinit var mClassCreditsInfoTextView: TextView
+    private lateinit var mDeleteClassButton: Button
 
     private val TAG = ClassInfoFragment::class.java.simpleName
 
     companion object {
-        const val CLASS_NAME = "Class_Name"
-
-        fun newInstance(className: String): ClassInfoFragment {
+        fun newInstance(classInfo: Bundle): ClassInfoFragment {
             val fragment = ClassInfoFragment()
 
-            val bundle = Bundle().apply {
-                putString(CLASS_NAME, className)
-            }
-
-            fragment.arguments = bundle
+            fragment.arguments = classInfo
 
             return fragment
         }
@@ -44,18 +45,55 @@ class ClassInfoFragment: Fragment(), View.OnClickListener {
 
         Log.d(TAG,"ClassInfoFragment invoked")
         mClassNameTextView = v.findViewById(R.id.class_name_info)
-        mClassNameInfoTextView = v.findViewById(R.id.class_name_text_info)
+        mClassStartTimeInfoTextView = v.findViewById(R.id.class_start_time_info)
+        mClassEndTimeInfoTextView = v.findViewById(R.id.class_end_time_info)
+        mClassDaysInfoTextView = v.findViewById(R.id.class_days_info)
+        mClassCreditsInfoTextView = v.findViewById(R.id.class_credits_info)
 
-        val name = arguments?.getString(CLASS_NAME)
-        mClassNameInfoTextView.text = name
-        mClassNameTextView.text = name
+        mClassNameTextView.text = arguments?.getString("className")
+        mClassStartTimeInfoTextView.text = arguments?.getString("startTime")
+        mClassEndTimeInfoTextView.text = arguments?.getString("endTime")
+        mClassCreditsInfoTextView.text = arguments?.getLong("creditHours").toString()
+
+        arguments?.getStringArrayList("classDays")?.forEach {
+            if (mClassDaysInfoTextView.text.isEmpty()) {
+                mClassDaysInfoTextView.text = it
+            } else {
+                mClassDaysInfoTextView.text = getString(R.string.day_list, mClassDaysInfoTextView.text, it)
+            }
+        }
+
+        mDeleteClassButton = v.findViewById(R.id.delete_class_button2)
+        mDeleteClassButton.setOnClickListener(this)
 
         return v
     }
 
+    fun deleteClass(){
+        val text = mClassNameTextView.text.toString()
+        val db = FirebaseFirestore.getInstance()
+        var uid = ""
+        if(FirebaseAuth.getInstance().currentUser != null){
+            uid = FirebaseAuth.getInstance().currentUser!!.uid
+            Log.d(TAG,"UID = $uid")
+        }
+        db.collection("user").document(uid).collection("classes")
+                .whereEqualTo("className", text)
+                .get()
+                .addOnSuccessListener {documents ->
+                    for (document in documents) {
+                        document.reference.delete()
+                    }
+                    activity!!.finish()
+                }
+                .addOnFailureListener { exception ->
+                    Log.w(TAG, "Error getting documents: ", exception)
+                }
+    }
     
     override fun onClick(v: View) {
         when (v.id) {
+            R.id.delete_class_button2 -> deleteClass()
         }
     }
 
