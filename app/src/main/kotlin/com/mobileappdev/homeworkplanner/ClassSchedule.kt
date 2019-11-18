@@ -6,13 +6,14 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import java.util.ArrayList
 import androidx.constraintlayout.widget.Constraints.TAG
+import com.google.android.gms.tasks.Tasks
 import com.google.firebase.auth.FirebaseUser
 import kotlinx.coroutines.*
 
 object ClassSchedule {
     private var uid = ""
 
-    val mClasses: MutableList<Class>
+    var mClasses: ArrayList<Class> = ArrayList()
 
     private fun createClass(dataMap: Map<String, Any>) {
         val aClass = Class()
@@ -24,7 +25,7 @@ object ClassSchedule {
         mClasses.add(aClass)
     }
 
-    fun initRoutine() {
+    fun initRoutine() = runBlocking {
         val db = FirebaseFirestore.getInstance()
 
         // TODO: Populate with classes from database
@@ -34,7 +35,7 @@ object ClassSchedule {
         }
 
         //db.collection("user").document(uid).
-        db.collection("user").document(uid).collection("classes")
+        Tasks.await(db.collection("user").document(uid).collection("classes")
                 .get()
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
@@ -45,12 +46,7 @@ object ClassSchedule {
                     } else {
                         Log.d(TAG, "Error getting documents: ", task.exception)
                     }
-                }
-    }
-
-    init {
-        mClasses = ArrayList()
-        initRoutine()
+                })
     }
 
     fun addClass(className: String, startTime: String, endTime: String, daysWeek: ArrayList<String>,

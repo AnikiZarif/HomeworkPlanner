@@ -14,6 +14,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
 import com.example.myapplication.R
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 
 class ClassListFragment : Fragment() {
@@ -33,7 +35,7 @@ class ClassListFragment : Fragment() {
             startActivity(intent)
         }
 
-        updateUI()
+        GlobalScope.launch { updateUI() }
 
         return view
     }
@@ -69,10 +71,13 @@ class ClassListFragment : Fragment() {
     }
 
     private fun updateUI() = runBlocking {
-        val classes = ClassSchedule.mClasses
-
-        mAdapter = ClassAdapter(classes)
-        mCrimeRecyclerView!!.adapter = mAdapter
+        val lol = GlobalScope.launch { ClassSchedule.initRoutine() }
+        lol.join()
+        activity!!.runOnUiThread {
+            val classes = ClassSchedule.mClasses
+            mAdapter = ClassAdapter(classes)
+            mCrimeRecyclerView!!.adapter = mAdapter
+        }
     }
 
     private inner class ClassAdapter(private val mClasses: List<Class>) : RecyclerView.Adapter<ClassHolder>() {
