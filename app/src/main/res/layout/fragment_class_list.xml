@@ -16,22 +16,44 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|center_vertical"
             android:layout_weight="3"
-            android:gravity="left|center_vertical"
+            android:gravity="center_vertical"
+            android:padding="15dp"
             android:text="Class Schedule"
             android:textSize="30sp" />
-
-        <Button
-            android:id="@+id/add_class_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_weight="1"
-            android:gravity="center|center_vertical"
-            android:text="@string/add_class" />
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/class_recycler_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"/>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <Button
+            android:id="@+id/add_class_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|left"
+            android:layout_margin="40dp"
+            android:gravity="center"
+            android:background="@drawable/roundshapebtn"
+            android:textColor="#FFFFFF"
+            android:text="+"
+            android:textSize="30dp"/>
+
+        <Button
+            android:id="@+id/delete_class_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|right"
+            android:layout_margin="40dp"
+            android:gravity="center"
+            android:background="@drawable/roundshapebtn"
+            android:textColor="#FFFFFF"
+            android:text="-"
+            android:textSize="30dp"/>
+    </FrameLayout>
+
 </LinearLayout>

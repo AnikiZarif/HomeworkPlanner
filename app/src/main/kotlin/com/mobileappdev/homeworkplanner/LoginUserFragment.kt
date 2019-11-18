@@ -59,7 +59,6 @@ class LoginUserFragment: Fragment(), View.OnClickListener {
     }
 
     fun openFragment(){
-        Log.d(TAG, "hellloooooo")
         val email = mUserNameText.text.toString()
         val password = mPasswordText.text.toString()
 

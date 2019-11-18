@@ -1,13 +1,12 @@
 package com.mobileappdev.homeworkplanner
 
 import android.util.Log
-
+import androidx.annotation.NonNull
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-
 import java.util.ArrayList
-
 import androidx.constraintlayout.widget.Constraints.TAG
+import com.google.firebase.auth.FirebaseUser
 import kotlinx.coroutines.*
 
 object ClassSchedule {
@@ -31,7 +30,10 @@ object ClassSchedule {
         // TODO: Populate with classes from database
         if (FirebaseAuth.getInstance().currentUser != null) {
             uid = FirebaseAuth.getInstance().currentUser!!.uid
+            Log.d("uid:  ", uid)
         }
+
+        //db.collection("user").document(uid).
         db.collection("user").document(uid).collection("classes")
                 .get()
                 .addOnCompleteListener { task ->

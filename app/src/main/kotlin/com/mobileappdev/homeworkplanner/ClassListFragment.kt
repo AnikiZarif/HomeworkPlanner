@@ -44,7 +44,6 @@ class ClassListFragment : Fragment() {
 
 
         override fun onClick(view: View) {
-            Toast.makeText(activity, mClass!!.className!! + " clicked!", Toast.LENGTH_SHORT).show()
             val classInfoAct = Intent(activity, ClassInfoActivity::class.java)
             classInfoAct.putExtra("className", mClass!!.className)
             startActivity(classInfoAct)
