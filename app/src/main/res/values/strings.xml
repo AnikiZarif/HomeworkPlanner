@@ -4,6 +4,7 @@
     <string name="add_class">Add Class</string>
     <string name="delete_class">Delete Class</string>
     <string name="class_name">Class Name</string>
+    <string name="class_name_info">%1$s</string>
     <string name="class_start_time">Class Start Time</string>
     <string name="class_end_time">Class End Time</string>
     <string name="class_days">Class Days</string>
