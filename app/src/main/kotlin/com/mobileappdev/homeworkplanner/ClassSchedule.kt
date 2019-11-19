@@ -15,7 +15,7 @@ object ClassSchedule {
 
     var mClasses: ArrayList<Class> = ArrayList()
 
-    private fun createClass(dataMap: Map<String, Any>) {
+    fun createClass(dataMap: Map<String, Any>) {
         val aClass = Class()
         aClass.daysOfWeek = dataMap["dayOfWeek"] as ArrayList<String>?
         aClass.className = dataMap["className"] as String?
@@ -48,14 +48,5 @@ object ClassSchedule {
                         Log.d(TAG, "Error getting documents: ", task.exception)
                     }
                 })
-    }
-
-    fun addClass(className: String, startTime: String, endTime: String, daysWeek: ArrayList<String>,
-                 creditHours: Int) {
-        val aClass = Class()
-        aClass.className = className
-        aClass.startTime = startTime
-        aClass.endTime = endTime
-        aClass.daysOfWeek = daysWeek
     }
 }

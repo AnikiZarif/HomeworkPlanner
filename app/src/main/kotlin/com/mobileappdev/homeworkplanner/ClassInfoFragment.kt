@@ -84,6 +84,12 @@ class ClassInfoFragment: Fragment(), View.OnClickListener {
                     for (document in documents) {
                         document.reference.delete()
                     }
+                    val listIter = ClassSchedule.mClasses.listIterator()
+                    while (listIter.hasNext()) {
+                        if (listIter.next().className == text) {
+                            listIter.remove()
+                        }
+                    }
                     activity!!.finish()
                 }
                 .addOnFailureListener { exception ->

@@ -97,7 +97,7 @@ class AddClassFragment: ClassAssignFragment(), View.OnClickListener {
 
     override fun addToFirestore(){
         val className = mClassNameEditText.text.toString()
-        val creds = mCreditHoursSpinner.selectedItem.toString().toInt()
+        val creds = mCreditHoursSpinner.selectedItem.toString().toLong()
         val classStartTime = mStartTimeTextView.text.toString()
         val classEndTime = mEndTimeTextView.text.toString()
         val item = hashMapOf(
@@ -115,6 +115,7 @@ class AddClassFragment: ClassAssignFragment(), View.OnClickListener {
         db.collection("user").document(uid).collection("classes")
                 .add(item)
                 .addOnSuccessListener{DocumentReference->
+                    ClassSchedule.createClass(item)
                     Log.d(TAG, "Added class with ${DocumentReference.id}")
                     Toast.makeText(activity!!,"Added Class",Toast.LENGTH_LONG).show()
                     activity!!.finish()

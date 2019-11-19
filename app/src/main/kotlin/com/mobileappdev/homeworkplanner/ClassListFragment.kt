@@ -24,6 +24,8 @@ class ClassListFragment : Fragment() {
     private var mAdapter: ClassAdapter? = null
     private var mAddClassButton: Button? = null
 
+    private var classScheduleInitialized = false
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_class_list, container, false)
 
@@ -43,7 +45,7 @@ class ClassListFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        GlobalScope.launch { updateUI() }
+        updateUI()
     }
 
     private inner class ClassHolder(inflater: LayoutInflater, parent: ViewGroup) : RecyclerView.ViewHolder(inflater.inflate(R.layout.list_item_class, parent, false)), View.OnClickListener {
@@ -77,8 +79,11 @@ class ClassListFragment : Fragment() {
     }
 
     private fun updateUI() = runBlocking {
-        val lol = GlobalScope.launch { ClassSchedule.initRoutine() }
-        lol.join()
+        if (!classScheduleInitialized) {
+            val lol = GlobalScope.launch { ClassSchedule.initRoutine() }
+            lol.join()
+            classScheduleInitialized = true
+        }
         activity!!.runOnUiThread {
             mCrimeRecyclerView!!.adapter!!.notifyDataSetChanged()
         }
