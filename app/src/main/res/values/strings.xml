@@ -13,6 +13,7 @@
     <string name="pick_day">Pick Class Days</string>
     <string name="cancel">Cancel</string>
     <string name="ok">OK</string>
+    <string name="assignments">Assignments</string>
     <string name="assign_due_time">Assignment Due Time</string>
     <string name="assign_due_date">Assignment Due Date</string>
     <string name="choose_start_time">Choose Start Time</string>
@@ -42,4 +43,5 @@
     <string name="importance">Importance</string>
     <string name="add_assignment">Add Assignment</string>
     <string name="assignment_name">Assignment Name</string>
+    <string name="show_assignments">Show Assignments</string>
 </resources>

@@ -28,7 +28,6 @@ object ClassSchedule {
     fun initRoutine() = runBlocking {
         val db = FirebaseFirestore.getInstance()
 
-        // TODO: Populate with classes from database
         if (FirebaseAuth.getInstance().currentUser != null) {
             uid = FirebaseAuth.getInstance().currentUser!!.uid
             Log.d("uid:  ", uid)
@@ -41,6 +40,15 @@ object ClassSchedule {
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
                         for (document in task.result!!) {
+                            document.reference.collection("assignments")
+                                    .get()
+                                    .addOnCompleteListener { task2 ->
+                                        for (assignment in task2.result!!) {
+                                            val dataMap = assignment.data
+                                            dataMap!!["className"] = document.data["className"]
+                                            AssignmentList.createAssignment(dataMap)
+                                        }
+                                    }
                             Log.d(TAG, document.id + " => " + document.data)
                             createClass(document.data)
                         }

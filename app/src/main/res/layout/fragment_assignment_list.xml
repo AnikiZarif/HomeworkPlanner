@@ -11,19 +11,19 @@
         android:orientation="horizontal">
 
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/assignments_list"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|center_vertical"
             android:layout_weight="3"
             android:gravity="center_vertical"
             android:padding="15dp"
-            android:text="Class Schedule"
+            android:text="@string/assignments"
             android:textSize="30sp" />
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/class_recycler_view"
+        android:id="@+id/assignment_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="20dp"/>
@@ -32,28 +32,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <Button
-            android:id="@+id/add_class_button"
+            android:id="@+id/add_assignment_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom|left"
+            android:layout_gravity="bottom|start"
             android:layout_margin="40dp"
             android:gravity="center"
             android:background="@drawable/roundshapebtn"
             android:textColor="#FFFFFF"
             android:text="+"
             android:textSize="30dp"/>
-
-        <Button
-            android:id="@+id/show_assignment_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|right"
-            android:layout_margin="40dp"
-            android:gravity="center"
-            android:background="@drawable/roundshapebtn"
-            android:textColor="#FFFFFF"
-            android:text="@string/show_assignments"
-            android:textSize="15dp"/>
     </FrameLayout>
 
 </LinearLayout>

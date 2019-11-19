@@ -1,12 +1,17 @@
 package com.mobileappdev.homeworkplanner
 
-import android.content.Context
-
 import java.util.ArrayList
-import java.util.Calendar
-import java.util.Date
 
 object AssignmentList {
-    val mAssignments: List<Assignment> = ArrayList()
+    var mAssignments: ArrayList<Assignment> = ArrayList()
 
+    fun createAssignment(dataMap: Map<String, Any>) {
+        val assignment = Assignment()
+        assignment.name = dataMap["assignmentName"] as String?
+        assignment.dueDate = dataMap["dueDate"] as String?
+        assignment.dueTime = dataMap["dueTime"] as String?
+        assignment.importance = dataMap["importance"] as String?
+        assignment.parentClass = dataMap["className"] as String?
+        mAssignments.add(assignment)
+    }
 }

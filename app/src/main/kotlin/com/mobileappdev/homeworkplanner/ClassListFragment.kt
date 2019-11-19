@@ -23,6 +23,7 @@ class ClassListFragment : Fragment() {
     private var mCrimeRecyclerView: RecyclerView? = null
     private var mAdapter: ClassAdapter? = null
     private var mAddClassButton: Button? = null
+    private var mShowAssignmentsButton: Button? = null
 
     private var classScheduleInitialized = false
 
@@ -34,6 +35,12 @@ class ClassListFragment : Fragment() {
         mAddClassButton = view.findViewById<View>(R.id.add_class_button) as Button
         mAddClassButton!!.setOnClickListener {
             val intent = Intent(activity, AddClassActivity::class.java)
+            startActivity(intent)
+        }
+
+        mShowAssignmentsButton = view.findViewById(R.id.show_assignment_button)
+        mShowAssignmentsButton!!.setOnClickListener {
+            val intent = Intent(activity, AssignmentListActivity::class.java)
             startActivity(intent)
         }
 
