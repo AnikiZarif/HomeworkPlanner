@@ -35,9 +35,15 @@ class ClassListFragment : Fragment() {
             startActivity(intent)
         }
 
-        GlobalScope.launch { updateUI() }
+        mAdapter = ClassAdapter(ClassSchedule.mClasses)
+        mCrimeRecyclerView!!.adapter = mAdapter
 
         return view
+    }
+
+    override fun onResume() {
+        super.onResume()
+        GlobalScope.launch { updateUI() }
     }
 
     private inner class ClassHolder(inflater: LayoutInflater, parent: ViewGroup) : RecyclerView.ViewHolder(inflater.inflate(R.layout.list_item_class, parent, false)), View.OnClickListener {
@@ -74,9 +80,7 @@ class ClassListFragment : Fragment() {
         val lol = GlobalScope.launch { ClassSchedule.initRoutine() }
         lol.join()
         activity!!.runOnUiThread {
-            val classes = ClassSchedule.mClasses
-            mAdapter = ClassAdapter(classes)
-            mCrimeRecyclerView!!.adapter = mAdapter
+            mCrimeRecyclerView!!.adapter!!.notifyDataSetChanged()
         }
     }
 

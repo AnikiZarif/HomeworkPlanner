@@ -34,6 +34,7 @@ object ClassSchedule {
             Log.d("uid:  ", uid)
         }
 
+        mClasses.clear()
         //db.collection("user").document(uid).
         Tasks.await(db.collection("user").document(uid).collection("classes")
                 .get()
