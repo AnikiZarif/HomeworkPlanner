@@ -24,8 +24,9 @@ class DatePickerFragment : DialogFragment(), DatePickerDialog.OnDateSetListener 
     override fun onDateSet(view: DatePicker, year: Int, month: Int, day: Int) {
         // Do something with the date chosen by the user
         val intent = Intent()
-        val date = "$month/$day/$year"
-        var name = "com.mobileappdev.homeworkplanner.datePicker"
+        val m = month + 1
+        val date = "$m/$day/$year"
+        val name = "com.mobileappdev.homeworkplanner.datePicker"
         intent.putExtra(name, date)
         val tf = targetFragment as AddAssignFragment
         tf.onDatePickerReturn(intent, name)
