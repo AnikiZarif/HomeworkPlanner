@@ -14,13 +14,16 @@ import com.google.firebase.firestore.FirebaseFirestore
 
 class AddAssignFragment: ClassAssignFragment(), View.OnClickListener {
     private lateinit var mAssignNameEditText: EditText
+    private lateinit var mTimeEstimateEditText: EditText
     private lateinit var mImportanceSpinner: Spinner
     private lateinit var mClassNameSpinner: Spinner
     private lateinit var mAddAssignmentButton: Button
     private lateinit var mDueDateButton : Button
+    private lateinit var mStartDateButton : Button
     private lateinit var mDueTimeButton : Button
     private lateinit var mDueDateTextView: TextView
     private lateinit var mDueTimeTextView: TextView
+    private lateinit var mStartDateTextView: TextView
 
     private val db = FirebaseFirestore.getInstance()
     private val TAG = AddAssignFragment::class.java.simpleName
@@ -40,6 +43,7 @@ class AddAssignFragment: ClassAssignFragment(), View.OnClickListener {
         mAssignNameEditText = v.findViewById(R.id.assign_name_text)
         mImportanceSpinner = v.findViewById(R.id.importance_spinner)
         mClassNameSpinner = v.findViewById(R.id.class_spinner)
+        mTimeEstimateEditText = v.findViewById(R.id.assign_time_estimate_text)
 
         val years = arrayOf("Very Important", "Important", "Normal")
         val adapter = ArrayAdapter(context!!, android.R.layout.simple_spinner_item, years)
@@ -63,7 +67,11 @@ class AddAssignFragment: ClassAssignFragment(), View.OnClickListener {
         mDueDateButton = v.findViewById(R.id.due_date_button)
         mDueDateButton.setOnClickListener(this)
 
+        mStartDateButton = v.findViewById(R.id.start_date_button)
+        mStartDateButton.setOnClickListener(this)
+
         mDueDateTextView = v.findViewById(R.id.due_date_text)
+        mStartDateTextView = v.findViewById(R.id.start_date_text)
 
         mAddAssignmentButton = v.findViewById(R.id.add_assign_button)
         mAddAssignmentButton.setOnClickListener(this)
@@ -76,14 +84,18 @@ class AddAssignFragment: ClassAssignFragment(), View.OnClickListener {
         mDueTimeTextView.text = data.getStringExtra(name)
     }
 
-    fun showDatePickerDialog() {
+    fun showDatePickerDialog(tag: String) {
         val datePickerFragment = DatePickerFragment()
         datePickerFragment.setTargetFragment(this, 0)
-        datePickerFragment.show(activity!!.supportFragmentManager, "datePicker")
+        datePickerFragment.show(activity!!.supportFragmentManager, tag)
     }
 
     fun onDatePickerReturn(data: Intent, name: String) {
-        mDueDateTextView.text = data.getStringExtra(name)
+        if (name == "dueDate") {
+            mDueDateTextView.text = data.getStringExtra(name)
+        } else {
+            mStartDateTextView.text = data.getStringExtra(name)
+        }
     }
 
     override fun addToFirestore(){
@@ -92,11 +104,15 @@ class AddAssignFragment: ClassAssignFragment(), View.OnClickListener {
         val imp = mImportanceSpinner.selectedItem.toString()
         val dueTime = mDueTimeTextView.text.toString()
         val dueDate = mDueDateTextView.text.toString()
+        val startDate = mStartDateTextView.text.toString()
+        val timeEstimate = mTimeEstimateEditText.text.toString().toInt()
         val item = hashMapOf(
                 "assignmentName" to assignName,
                 "importance" to imp,
                 "dueTime" to dueTime,
-                "dueDate" to dueDate
+                "dueDate" to dueDate,
+                "startDate" to startDate,
+                "timeEstimate" to timeEstimate
         )
         var classDocumentId = ""
         for (c in ClassSchedule.mClasses) {
@@ -126,7 +142,8 @@ class AddAssignFragment: ClassAssignFragment(), View.OnClickListener {
     override fun onClick(v: View) {
         when (v.id) {
             R.id.due_time_button -> showTimePickerDialog("dueTime")
-            R.id.due_date_button -> showDatePickerDialog()
+            R.id.due_date_button -> showDatePickerDialog("dueDate")
+            R.id.start_date_button -> showDatePickerDialog("startDate")
             R.id.add_assign_button -> addToFirestore()
         }
     }

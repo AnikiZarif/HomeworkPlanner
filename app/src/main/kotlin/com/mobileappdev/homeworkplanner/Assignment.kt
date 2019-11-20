@@ -6,4 +6,8 @@ class Assignment {
     var parentClass: String? = null
     var dueTime: String? = null
     var importance: String? = null
+    var startDate: String? = null
+    var isComplete: Boolean? = false
+    var timeEstimate: Int? = null
+    var actualTimeSpent: Int? = null
 }

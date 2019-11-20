@@ -17,10 +17,13 @@
     <string name="assignments">Assignments</string>
     <string name="assign_due_time">Assignment Due Time</string>
     <string name="assign_due_date">Assignment Due Date</string>
+    <string name="assign_start_date">Assignment Start Date</string>
+    <string name="assign_time_estimate">Time Estimate (in hours)</string>
     <string name="choose_start_time">Choose Start Time</string>
     <string name="choose_end_time">Choose End Time</string>
     <string name="choose_due_time">Choose Due Time</string>
     <string name="choose_due_date">Choose Due Date</string>
+    <string name="choose_start_date">Choose Start Date</string>
     <string name="choose_days">Choose Days</string>
     <string-array name="days_of_week">
         <item>Monday</item>
