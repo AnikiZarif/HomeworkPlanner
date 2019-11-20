@@ -26,6 +26,7 @@
         <activity android:name="com.mobileappdev.homeworkplanner.ClassInfoActivity"></activity>
         <activity android:name="com.mobileappdev.homeworkplanner.AssignmentListActivity"></activity>
         <activity android:name="com.mobileappdev.homeworkplanner.AssignmentInfoActivity"></activity>
+        <activity android:name="com.mobileappdev.homeworkplanner.LandscapeCalendarActivity"></activity>
     </application>
 
 </manifest>
