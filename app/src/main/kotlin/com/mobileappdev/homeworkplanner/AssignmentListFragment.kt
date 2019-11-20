@@ -19,6 +19,7 @@ class AssignmentListFragment : Fragment() {
     private var mAssignmentRecyclerView: RecyclerView? = null
     private var mAdapter: AssignmentAdapter? = null
     private var mAddAssignmentButton: Button? = null
+    private var mCalendarButton: Button? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_assignment_list, container, false)
@@ -30,6 +31,12 @@ class AssignmentListFragment : Fragment() {
             val intent = Intent(activity, AddAssignActivity::class.java)
             startActivity(intent)
         }
+
+        mCalendarButton = view.findViewById(R.id.view_calendar_button) as Button
+        mCalendarButton!!.setOnClickListener({
+            val intent = Intent(activity, PortraitCalendarActivity::class.java)
+            startActivity(intent)
+        })
 
         mAdapter = AssignmentAdapter(AssignmentList.mAssignments)
         mAssignmentRecyclerView!!.adapter = mAdapter

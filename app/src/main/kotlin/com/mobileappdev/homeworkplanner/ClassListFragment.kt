@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.R
 import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 
@@ -48,7 +49,11 @@ class ClassListFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        updateUI()
+        GlobalScope.launch {
+            coroutineScope {
+                updateUI()
+            }
+        }
     }
 
     private inner class ClassHolder(inflater: LayoutInflater, parent: ViewGroup) : RecyclerView.ViewHolder(inflater.inflate(R.layout.list_item_class, parent, false)), View.OnClickListener {
