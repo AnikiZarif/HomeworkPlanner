@@ -7,10 +7,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.R
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
@@ -43,6 +45,14 @@ class ClassListFragment : Fragment() {
 
         mAdapter = ClassAdapter(ClassSchedule.mClasses)
         mCrimeRecyclerView!!.adapter = mAdapter
+
+        val callback = requireActivity().onBackPressedDispatcher.addCallback(this) {
+            FirebaseAuth.getInstance().signOut()
+            startActivity(Intent(activity, LoginUserActivity::class.java))
+            activity!!.finish()
+        }
+
+        callback.isEnabled = true
 
         return view
     }

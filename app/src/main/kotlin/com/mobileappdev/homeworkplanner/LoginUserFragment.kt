@@ -78,6 +78,7 @@ class LoginUserFragment: Fragment(), View.OnClickListener {
                         if (task.isSuccessful) {
                             Log.d(TAG, "Open Fragment")
                             startActivity(Intent(activity, ClassListActivity::class.java))
+                            activity!!.finish()
                         } else {
                             Log.d(TAG, "ERROR: Logging in the user")
                             Toast.makeText(activity!!, "Unable to Login", Toast.LENGTH_LONG).show()
@@ -92,13 +93,23 @@ class LoginUserFragment: Fragment(), View.OnClickListener {
     }
 
     fun enlargeFont(){
-        mEnlargeButton.setTextSize(TypedValue.COMPLEX_UNIT_DIP, (30.0).toFloat())
-        mEnlargeButton.setText("Smaller Font")
-        mResetButton.setTextSize(TypedValue.COMPLEX_UNIT_DIP, (30.0).toFloat())
-        mSubmitButton.setTextSize(TypedValue.COMPLEX_UNIT_DIP, (30.0).toFloat())
-        mNewUserButton.setTextSize(TypedValue.COMPLEX_UNIT_DIP, (30.0).toFloat())
-        mUserNameText.setTextSize(TypedValue.COMPLEX_UNIT_DIP, (30.0).toFloat())
-        mResetButton.setTextSize(TypedValue.COMPLEX_UNIT_DIP, (30.0).toFloat())
+        if(mEnlargeButton.text == "Smaller Font"){
+            mEnlargeButton.setTextSize(TypedValue.COMPLEX_UNIT_DIP, (14.0).toFloat())
+            mEnlargeButton.setText("Larger Font")
+            mResetButton.setTextSize(TypedValue.COMPLEX_UNIT_DIP, (14.0).toFloat())
+            mSubmitButton.setTextSize(TypedValue.COMPLEX_UNIT_DIP, (14.0).toFloat())
+            mNewUserButton.setTextSize(TypedValue.COMPLEX_UNIT_DIP, (14.0).toFloat())
+            mUserNameText.setTextSize(TypedValue.COMPLEX_UNIT_DIP, (14.0).toFloat())
+            mResetButton.setTextSize(TypedValue.COMPLEX_UNIT_DIP, (14.0).toFloat())
+        }else{
+            mEnlargeButton.setTextSize(TypedValue.COMPLEX_UNIT_DIP, (30.0).toFloat())
+            mEnlargeButton.setText("Smaller Font")
+            mResetButton.setTextSize(TypedValue.COMPLEX_UNIT_DIP, (30.0).toFloat())
+            mSubmitButton.setTextSize(TypedValue.COMPLEX_UNIT_DIP, (30.0).toFloat())
+            mNewUserButton.setTextSize(TypedValue.COMPLEX_UNIT_DIP, (30.0).toFloat())
+            mUserNameText.setTextSize(TypedValue.COMPLEX_UNIT_DIP, (30.0).toFloat())
+            mResetButton.setTextSize(TypedValue.COMPLEX_UNIT_DIP, (30.0).toFloat())
+        }
     }
 
     override fun onClick(v: View) {
