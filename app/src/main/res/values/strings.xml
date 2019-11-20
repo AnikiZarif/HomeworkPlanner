@@ -19,6 +19,8 @@
     <string name="assign_due_date">Assignment Due Date</string>
     <string name="assign_start_date">Assignment Start Date</string>
     <string name="assign_time_estimate">Time Estimate (in hours)</string>
+    <string name="assign_completed">Assignment Completed</string>
+    <string name="assign_time_spent">Actual Time Spent (in hours)</string>
     <string name="choose_start_time">Choose Start Time</string>
     <string name="choose_end_time">Choose End Time</string>
     <string name="choose_due_time">Choose Due Time</string>
@@ -35,6 +37,7 @@
         <item>Sunday</item>
     </string-array>
     <string name="day_list">%1$s, %2$s</string>
+    <string name="done">Done</string>
     <string name="class_list_title">Class Schedule</string>
     <string-array name="credit_hours_options">
         <item>0</item>

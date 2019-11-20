@@ -5,7 +5,7 @@ import java.util.ArrayList
 object AssignmentList {
     var mAssignments: ArrayList<Assignment> = ArrayList()
 
-    fun createAssignment(dataMap: Map<String, Any>) {
+    fun createAssignment(dataMap: Map<String, Any>, documentId: String) {
         val assignment = Assignment()
         assignment.name = dataMap["assignmentName"] as String?
         assignment.dueDate = dataMap["dueDate"] as String?
@@ -13,7 +13,10 @@ object AssignmentList {
         assignment.importance = dataMap["importance"] as String?
         assignment.parentClass = dataMap["className"] as String?
         assignment.startDate = dataMap["startDate"] as String?
-        assignment.timeEstimate = dataMap["timeEstimate"] as Int?
+        assignment.timeEstimate = dataMap["timeEstimate"] as Long
+        assignment.actualTimeSpent = dataMap["timeSpent"] as Long
+        assignment.isComplete = dataMap["isComplete"] as Boolean?
+        assignment.documentId = documentId
         mAssignments.add(assignment)
     }
 }

@@ -47,7 +47,7 @@ object ClassSchedule {
                                         for (assignment in task2.result!!) {
                                             val dataMap = assignment.data
                                             dataMap!!["className"] = document.data["className"]
-                                            AssignmentList.createAssignment(dataMap)
+                                            AssignmentList.createAssignment(dataMap, assignment.id)
                                         }
                                     }
                             Log.d(TAG, document.id + " => " + document.data)
