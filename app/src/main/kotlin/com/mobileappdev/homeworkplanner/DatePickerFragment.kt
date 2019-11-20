@@ -26,9 +26,8 @@ class DatePickerFragment : DialogFragment(), DatePickerDialog.OnDateSetListener 
         val intent = Intent()
         val m = month + 1
         val date = "$m/$day/$year"
-        val name = "com.mobileappdev.homeworkplanner.datePicker"
-        intent.putExtra(name, date)
+        intent.putExtra(this.tag, date)
         val tf = targetFragment as AddAssignFragment
-        tf.onDatePickerReturn(intent, name)
+        tf.onDatePickerReturn(intent, this.tag!!)
     }
 }
