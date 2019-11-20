@@ -145,7 +145,7 @@ class AddUserFragment: Fragment(), View.OnClickListener {
                 .addOnCompleteListener(activity!!){task ->
                     if(task.isSuccessful){
                         Toast.makeText(activity!!, "Sent email", Toast.LENGTH_LONG).show()
-                        startActivity(Intent(activity!!,AddClassActivity::class.java))
+                        startActivity(Intent(activity!!,ClassListActivity::class.java))
                     }else {
                         Toast.makeText(activity!!, "Failed to send email", Toast.LENGTH_LONG).show()
                         Log.d(TAG, "Failed to send email")

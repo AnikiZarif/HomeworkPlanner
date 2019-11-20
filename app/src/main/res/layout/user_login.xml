@@ -64,6 +64,14 @@
             android:layout_height="wrap_content"
             android:text="New User"
             android:textAllCaps="false" />
+
+        <Button
+            android:layout_margin="10dp"
+            android:id="@+id/enlarge_font"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Enlarge Font"
+            android:textAllCaps="false" />
     </LinearLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

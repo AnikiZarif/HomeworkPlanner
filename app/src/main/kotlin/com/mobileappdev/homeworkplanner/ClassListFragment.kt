@@ -2,17 +2,14 @@ package com.mobileappdev.homeworkplanner
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-
 import com.example.myapplication.R
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -24,7 +21,6 @@ class ClassListFragment : Fragment() {
     private var mAdapter: ClassAdapter? = null
     private var mAddClassButton: Button? = null
     private var mShowAssignmentsButton: Button? = null
-
     private var classScheduleInitialized = false
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
