@@ -15,20 +15,20 @@ object ClassSchedule {
 
     var mClasses: ArrayList<Class> = ArrayList()
 
-    fun createClass(dataMap: Map<String, Any>) {
+    fun createClass(dataMap: Map<String, Any>, documentId: String) {
         val aClass = Class()
         aClass.daysOfWeek = dataMap["dayOfWeek"] as ArrayList<String>?
         aClass.className = dataMap["className"] as String?
         aClass.startTime = dataMap["classStartTime"] as String?
         aClass.endTime = dataMap["classEndTime"] as String?
         aClass.creditHours = dataMap["creditHours"] as Long
+        aClass.documentId = documentId
         mClasses.add(aClass)
     }
 
     fun initRoutine() = runBlocking {
         val db = FirebaseFirestore.getInstance()
 
-        // TODO: Populate with classes from database
         if (FirebaseAuth.getInstance().currentUser != null) {
             uid = FirebaseAuth.getInstance().currentUser!!.uid
             Log.d("uid:  ", uid)
@@ -41,8 +41,17 @@ object ClassSchedule {
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
                         for (document in task.result!!) {
+                            document.reference.collection("assignments")
+                                    .get()
+                                    .addOnCompleteListener { task2 ->
+                                        for (assignment in task2.result!!) {
+                                            val dataMap = assignment.data
+                                            dataMap!!["className"] = document.data["className"]
+                                            AssignmentList.createAssignment(dataMap)
+                                        }
+                                    }
                             Log.d(TAG, document.id + " => " + document.data)
-                            createClass(document.data)
+                            createClass(document.data, document.id)
                         }
                     } else {
                         Log.d(TAG, "Error getting documents: ", task.exception)

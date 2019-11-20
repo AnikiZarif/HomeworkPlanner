@@ -115,7 +115,7 @@ class AddClassFragment: ClassAssignFragment(), View.OnClickListener {
         db.collection("user").document(uid).collection("classes")
                 .add(item)
                 .addOnSuccessListener{DocumentReference->
-                    ClassSchedule.createClass(item)
+                    ClassSchedule.createClass(item, DocumentReference.id)
                     Log.d(TAG, "Added class with ${DocumentReference.id}")
                     Toast.makeText(activity!!,"Added Class",Toast.LENGTH_LONG).show()
                     activity!!.finish()
