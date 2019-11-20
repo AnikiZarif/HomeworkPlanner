@@ -3,6 +3,7 @@ package com.mobileappdev.homeworkplanner
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.Surface
 import android.view.View
@@ -21,6 +22,7 @@ class LoginUserFragment: Fragment(), View.OnClickListener {
     private lateinit var mResetButton : Button
     private lateinit var mSubmitButton : Button
     private lateinit var mNewUserButton : Button
+    private lateinit var mEnlargeButton: Button
 
     private var mAuth = FirebaseAuth.getInstance()
 
@@ -47,7 +49,9 @@ class LoginUserFragment: Fragment(), View.OnClickListener {
 
         mNewUserButton = v.findViewById(R.id.new_user)
         mNewUserButton.setOnClickListener(this)
-        Log.d(TAG, "Login page created")
+
+        mEnlargeButton = v.findViewById(R.id.enlarge_font)
+        mEnlargeButton.setOnClickListener(this)
 
         return v
     }
@@ -87,11 +91,22 @@ class LoginUserFragment: Fragment(), View.OnClickListener {
         startActivity(Intent(activity, AddUserActivity::class.java))
     }
 
+    fun enlargeFont(){
+        mEnlargeButton.setTextSize(TypedValue.COMPLEX_UNIT_DIP, (30.0).toFloat())
+        mEnlargeButton.setText("Smaller Font")
+        mResetButton.setTextSize(TypedValue.COMPLEX_UNIT_DIP, (30.0).toFloat())
+        mSubmitButton.setTextSize(TypedValue.COMPLEX_UNIT_DIP, (30.0).toFloat())
+        mNewUserButton.setTextSize(TypedValue.COMPLEX_UNIT_DIP, (30.0).toFloat())
+        mUserNameText.setTextSize(TypedValue.COMPLEX_UNIT_DIP, (30.0).toFloat())
+        mResetButton.setTextSize(TypedValue.COMPLEX_UNIT_DIP, (30.0).toFloat())
+    }
+
     override fun onClick(v: View) {
         when (v.id) {
             R.id.reset -> resetText()
             R.id.new_user -> createUser()
             R.id.submit -> openFragment()
+            R.id.enlarge_font-> enlargeFont()
         }
     }
 

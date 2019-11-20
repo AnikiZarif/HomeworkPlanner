@@ -1,17 +1,11 @@
 package com.mobileappdev.homeworkplanner
 
-import android.os.AsyncTask
-import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
 
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import androidx.constraintlayout.widget.Constraints
-
 import com.example.myapplication.R
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
+
 
 class ClassListActivity : AppCompatActivity() {
 
