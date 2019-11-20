@@ -15,7 +15,8 @@ import com.google.firebase.firestore.FirebaseFirestore
 class AddAssignFragment: ClassAssignFragment(), View.OnClickListener {
     private lateinit var mAssignNameEditText: EditText
     private lateinit var mImportanceSpinner: Spinner
-    private lateinit var mAddClassButton: Button
+    private lateinit var mClassNameSpinner: Spinner
+    private lateinit var mAddAssignmentButton: Button
     private lateinit var mDueDateButton : Button
     private lateinit var mDueTimeButton : Button
     private lateinit var mDueDateTextView: TextView
@@ -38,12 +39,21 @@ class AddAssignFragment: ClassAssignFragment(), View.OnClickListener {
         Log.d(TAG,"AddAssignFragment invoked")
         mAssignNameEditText = v.findViewById(R.id.assign_name_text)
         mImportanceSpinner = v.findViewById(R.id.importance_spinner)
+        mClassNameSpinner = v.findViewById(R.id.class_spinner)
 
         val years = arrayOf("Very Important", "Important", "Normal")
         val adapter = ArrayAdapter(context!!, android.R.layout.simple_spinner_item, years)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
 
+        val classNames = ArrayList<String>()
+        for (c in ClassSchedule.mClasses) {
+            classNames.add(c.className!!)
+        }
+        val classNamesAdapter = ArrayAdapter(context!!, android.R.layout.simple_spinner_item, classNames)
+        classNamesAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+
         mImportanceSpinner.adapter = adapter
+        mClassNameSpinner.adapter = classNamesAdapter
 
         mDueTimeButton = v.findViewById(R.id.due_time_button)
         mDueTimeButton.setOnClickListener(this)
@@ -55,8 +65,8 @@ class AddAssignFragment: ClassAssignFragment(), View.OnClickListener {
 
         mDueDateTextView = v.findViewById(R.id.due_date_text)
 
-        mAddClassButton = v.findViewById(R.id.add_assign)
-        mAddClassButton.setOnClickListener(this)
+        mAddAssignmentButton = v.findViewById(R.id.add_assign_button)
+        mAddAssignmentButton.setOnClickListener(this)
 
 
         return v
@@ -77,25 +87,34 @@ class AddAssignFragment: ClassAssignFragment(), View.OnClickListener {
     }
 
     override fun addToFirestore(){
+        val className = mClassNameSpinner.selectedItem.toString()
         val assignName = mAssignNameEditText.text.toString()
         val imp = mImportanceSpinner.selectedItem.toString()
         val dueTime = mDueTimeTextView.text.toString()
         val dueDate = mDueDateTextView.text.toString()
         val item = hashMapOf(
-                "assignName" to assignName,
+                "assignmentName" to assignName,
                 "importance" to imp,
                 "dueTime" to dueTime,
                 "dueDate" to dueDate
         )
-        //NEED TO ADJUST THIS SO WE CAN ADD ASSIGNMENT UNDER A CLASS
+        var classDocumentId = ""
+        for (c in ClassSchedule.mClasses) {
+            if (c.className == className) {
+                classDocumentId = c.documentId!!
+            }
+        }
         if(FirebaseAuth.getInstance().currentUser != null){
             uid = FirebaseAuth.getInstance().currentUser!!.uid
         }
-        db.collection("user").document(uid).collection("classes")
+        db.collection("user").document(uid).collection("classes").document(classDocumentId).collection("assignments")
                 .add(item)
                 .addOnSuccessListener{DocumentReference->
+                    item["className"] = className
+                    AssignmentList.createAssignment(item)
                     Log.d(TAG, "Added assignment with ${DocumentReference.id}")
                     Toast.makeText(activity!!,"Added Assignment",Toast.LENGTH_LONG).show()
+                    activity!!.finish()
                 }
                 .addOnFailureListener { e ->
                     Log.w(TAG, "Error adding document", e)
@@ -106,7 +125,7 @@ class AddAssignFragment: ClassAssignFragment(), View.OnClickListener {
         when (v.id) {
             R.id.due_time_button -> showTimePickerDialog("dueTime")
             R.id.due_date_button -> showDatePickerDialog()
-            R.id.add_button -> addToFirestore()
+            R.id.add_assign_button -> addToFirestore()
         }
     }
 }

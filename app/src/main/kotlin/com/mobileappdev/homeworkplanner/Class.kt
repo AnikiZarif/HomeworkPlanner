@@ -8,4 +8,5 @@ class Class {
     var startTime: String? = null
     var endTime: String? = null
     var creditHours: Long = 0
+    var documentId: String? = null
 }

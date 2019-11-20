@@ -19,10 +19,28 @@
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
             android:layout_marginTop="16dp"
-            android:text="@string/assignment_name"
+            android:text="@string/add_assignment"
             android:textColor="#CE0F3D"
             android:textAlignment="center"
             android:textSize="24sp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:layout_marginBottom="8dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:labelFor="@id/class_spinner"
+            android:text="@string/class_name"/>
+
+        <Spinner
+            android:id="@+id/class_spinner"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="64dp"/>
 
         <TextView
             android:layout_width="match_parent"
@@ -116,7 +134,7 @@
         </LinearLayout>
 
         <Button
-            android:id="@+id/add_assign"
+            android:id="@+id/add_assign_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="24dp"
