@@ -25,15 +25,17 @@ class TimePickerFragment : DialogFragment(), TimePickerDialog.OnTimeSetListener 
         val intent = Intent()
         var minuteStr = minute.toString()
         if (minute < 10) {
-            minuteStr = "0" + minute.toString()
+            minuteStr = "0$minute"
         }
-        val time = hourOfDay.toString() + ":" + minuteStr
+        val time = "$hourOfDay:$minuteStr"
         var name = "com.mobileappdev.homeworkplanner.starttime"
         if (this.tag == "endTime") {
             name = "com.mobileappdev.homeworkplanner.endtime"
+        } else if (this.tag == "dueTime") {
+            name = "com.mobileappdev.homeworkplanner.duetime"
         }
         intent.putExtra(name, time)
-        val tf = targetFragment as AddClassFragment
+        val tf = targetFragment as ClassAssignFragment
         tf.onTimePickerReturn(intent, name)
     }
 }

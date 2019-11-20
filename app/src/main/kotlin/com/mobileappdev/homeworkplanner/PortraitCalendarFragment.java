@@ -62,8 +62,7 @@ public class PortraitCalendarFragment extends Fragment {
     }
 
     private void updateUI(){
-        AssignmentList assignmentList = AssignmentList.get(getActivity());
-        List<Assignment> assignments = assignmentList.getAssignments();
+        List<Assignment> assignments = AssignmentList.INSTANCE.getMAssignments();
 
         mAdapter = new AssignmentAdapter(assignments);
         mAssignmentRecyclerView.setAdapter(mAdapter);

@@ -12,7 +12,10 @@ import androidx.fragment.app.Fragment
 import com.example.myapplication.R
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import java.util.regex.Pattern
 import com.google.firebase.firestore.FirebaseFirestore
+
+
 
 class AddUserFragment: Fragment(), View.OnClickListener {
     private lateinit var mUserNameEditText: EditText
@@ -80,6 +83,37 @@ class AddUserFragment: Fragment(), View.OnClickListener {
                 "email" to email,
                 "year" to year
         )
+        val regex = Pattern.compile("[$&+,:;=\\\\?@#|/'<>.^*()%!-]")
+
+        if(password.length < 6){
+            Toast.makeText(activity!!, "Password is not long enough", Toast.LENGTH_LONG).show()
+            mUserPasswordEditText.setText("")
+            mUserRepeatPasswordEditText.setText("")
+            return
+        }
+
+        if (!regex.matcher(password).find()) {
+            Toast.makeText(activity!!, "Password must include special character", Toast.LENGTH_LONG).show()
+            mUserPasswordEditText.setText("")
+            mUserRepeatPasswordEditText.setText("")
+            return
+        }
+        var lowCase = 0
+        var upCase = 0
+
+        for(letter in password){
+            if(letter.isLowerCase()){
+                lowCase++
+            }else if(letter.isUpperCase()){
+                upCase++
+            }
+        }
+        if(lowCase == 0 || upCase == 0){
+            Toast.makeText(activity!!, "Password must include at least one upper or lower case", Toast.LENGTH_LONG).show()
+            mUserPasswordEditText.setText("")
+            mUserRepeatPasswordEditText.setText("")
+            return
+        }
 
         if(email.equals("") || password.equals("")){
             Toast.makeText(activity!!, "Please fill in email and password", Toast.LENGTH_LONG).show()

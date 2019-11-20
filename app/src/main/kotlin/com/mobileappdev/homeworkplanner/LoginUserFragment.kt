@@ -12,9 +12,6 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.myapplication.R
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.android.gms.tasks.OnCompleteListener
-import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 
 class LoginUserFragment: Fragment(), View.OnClickListener {
@@ -62,26 +59,24 @@ class LoginUserFragment: Fragment(), View.OnClickListener {
     }
 
     fun openFragment(){
-        Log.d(TAG, "hellloooooo")
         val email = mUserNameText.text.toString()
         val password = mPasswordText.text.toString()
 
-        if(email.equals("") || password.equals("")){
+        if(email.isEmpty() || password.isEmpty()){
             Toast.makeText(activity!!, "Please fill in email and password", Toast.LENGTH_LONG).show()
         }else if(!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()){
             Toast.makeText(activity!!, "Please enter a valid email address", Toast.LENGTH_LONG).show()
             mUserNameText.setText("")
             mPasswordText.setText("")
         }else {
-
-            mAuth!!.signInWithEmailAndPassword(email!!, password!!)
+            mAuth.signInWithEmailAndPassword(email, password)
                     .addOnCompleteListener(activity!!) { task ->
                         if (task.isSuccessful) {
                             Log.d(TAG, "Open Fragment")
                             startActivity(Intent(activity, ClassListActivity::class.java))
                         } else {
                             Log.d(TAG, "ERROR: Logging in the user")
-                            Toast.makeText(activity!!, "Added Class", Toast.LENGTH_LONG).show()
+                            Toast.makeText(activity!!, "Unable to Login", Toast.LENGTH_LONG).show()
                         }
                     }
         }
