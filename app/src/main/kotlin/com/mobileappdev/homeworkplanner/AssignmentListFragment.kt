@@ -48,7 +48,7 @@ class AssignmentListFragment : Fragment() {
 
 
         override fun onClick(view: View) {
-            val classInfoAct = Intent(activity, ClassInfoActivity::class.java)
+            val assignmentInfoAct = Intent(activity, AssignmentInfoActivity::class.java)
             val bundle = Bundle().apply {
                 putString("className", mAssignment!!.parentClass)
                 putString("assignmentName", mAssignment!!.name)
@@ -56,8 +56,8 @@ class AssignmentListFragment : Fragment() {
                 putString("dueDate", mAssignment!!.dueDate)
                 putString("importance", mAssignment!!.importance)
             }
-            classInfoAct.putExtra("assignmentInfo", bundle)
-            startActivity(classInfoAct)
+            assignmentInfoAct.putExtra("assignmentInfo", bundle)
+            startActivity(assignmentInfoAct)
         }
 
         init {
