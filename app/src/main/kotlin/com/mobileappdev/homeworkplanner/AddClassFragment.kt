@@ -121,7 +121,9 @@ class AddClassFragment: ClassAssignFragment(), View.OnClickListener {
                     activity!!.finish()
                 }
                 .addOnFailureListener { e ->
+                    Toast.makeText(activity!!,"Unable to add class",Toast.LENGTH_LONG).show()
                     Log.w(TAG, "Error adding document", e)
+                    activity!!.finish()
                 }
 
     }

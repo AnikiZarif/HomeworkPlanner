@@ -78,6 +78,7 @@ class LoginUserFragment: Fragment(), View.OnClickListener {
                         if (task.isSuccessful) {
                             Log.d(TAG, "Open Fragment")
                             startActivity(Intent(activity, ClassListActivity::class.java))
+                            activity!!.finish()
                         } else {
                             Log.d(TAG, "ERROR: Logging in the user")
                             Toast.makeText(activity!!, "Unable to Login", Toast.LENGTH_LONG).show()
