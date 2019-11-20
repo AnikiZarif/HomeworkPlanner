@@ -3,4 +3,8 @@
     <color name="colorPrimary">#CE0F3D</color>
     <color name="colorPrimaryDark">#B0B7BC</color>
     <color name="colorAccent">#D81B60</color>
+    <color name="veryImportantAssignment">#DD310D</color>
+    <color name="importantAssignment">#F5A910</color>
+    <color name="normalAssignment">#9FEE10</color>
+    <color name="white">#FFFFFF</color>
 </resources>

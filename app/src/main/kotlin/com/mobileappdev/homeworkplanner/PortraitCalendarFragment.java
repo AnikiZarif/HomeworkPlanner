@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,7 +28,9 @@ import java.util.Calendar;
 public class PortraitCalendarFragment extends Fragment {
 
     private RecyclerView mAssignmentRecyclerView;
-    private AssignmentAdapter mAdapter;
+    private RecyclerView mUpcomingAssignmentRecyclerView;
+    private AssignmentAdapter mDueAssignmentAdapter;
+    private AssignmentAdapter mUpcomingAssignmentAdapter;
     private Button mAddAssignmentButton;
     private TextView mCurrentDateText;
     private Button mNextDateButton;
@@ -51,8 +54,10 @@ public class PortraitCalendarFragment extends Fragment {
 
         mAssignmentRecyclerView = (RecyclerView) view.findViewById(R.id.assignment_recycler_view);
         mAssignmentRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mUpcomingAssignmentRecyclerView = view.findViewById(R.id.upcoming_assignment_recycler_view);
+        mUpcomingAssignmentRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
         mCurrentDateText = view.findViewById(R.id.portrait_view_date);
-        mCurrentDateText.setText(mDateFormat.format(mCurrentDate));
 
         // Set prev date
         mPrevDateButton = view.findViewById(R.id.portrait_prev_button);
@@ -86,8 +91,10 @@ public class PortraitCalendarFragment extends Fragment {
     }
 
     private class AssignmentHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        private TextView mTitleTextView;
+        private TextView mAssignmentTitleTextView;
         private Assignment mAssignment;
+        private TextView mClassTitleTextView;
+        private LinearLayout mAssignmentLinearLayout;
 
 
         @Override
@@ -99,12 +106,23 @@ public class PortraitCalendarFragment extends Fragment {
             super(inflater.inflate(R.layout.list_item_assignment, parent, false));
             itemView.setOnClickListener(this);
 
-            mTitleTextView = (TextView)itemView.findViewById(R.id.assignment_title);
+            mAssignmentTitleTextView = (TextView)itemView.findViewById(R.id.assignment_title);
+            mClassTitleTextView = itemView.findViewById(R.id.class_title);
+            mAssignmentLinearLayout = itemView.findViewById(R.id.assignment_view);
         }
 
         public void bind(Assignment assignment){
             mAssignment = assignment;
-            mTitleTextView.setText(mAssignment.getName());
+            mAssignmentTitleTextView.setText(mAssignment.getName());
+            mClassTitleTextView.setText(mAssignment.getParentClass() + ":");
+            String importance = mAssignment.getImportance();
+            if (importance.equals("Very Important")){
+                mAssignmentLinearLayout.setBackgroundColor(getResources().getColor(R.color.veryImportantAssignment));
+            } else if (importance.equals("Important")){
+                mAssignmentLinearLayout.setBackgroundColor(getResources().getColor(R.color.importantAssignment));
+            } else {
+                mAssignmentLinearLayout.setBackgroundColor(getResources().getColor(R.color.normalAssignment));
+            }
         }
     }
 
@@ -120,14 +138,52 @@ public class PortraitCalendarFragment extends Fragment {
         c.add(Calendar.DAY_OF_YEAR, 1);
         mNextDateButton.setText(mDateFormat.format(c.getTime()));
 
+        // Set Current date
+        mCurrentDateText.setText(mDateFormat.format(mCurrentDate));
+
+        // Get all assignments due this day
         List<Assignment> assignments = AssignmentList.INSTANCE.getMAssignments();
-
         List<Assignment> assignmentsDue = getAssignmentsDue(assignments);
-//        List<Assignment> assignmentsDue = assignments;
 
-        mAdapter = new AssignmentAdapter(assignmentsDue);
-        mAssignmentRecyclerView.setAdapter(mAdapter);
+        // Get all assignments due in the next week
+        List<Assignment> upcomingAssignments = getUpcomingAssignments(assignments);
+
+        mUpcomingAssignmentAdapter = new AssignmentAdapter(upcomingAssignments);
+        mDueAssignmentAdapter = new AssignmentAdapter(assignmentsDue);
+        mAssignmentRecyclerView.setAdapter(mDueAssignmentAdapter);
+        mUpcomingAssignmentRecyclerView.setAdapter(mUpcomingAssignmentAdapter);
     }
+
+    // Get all assignments due in the next week
+    private List<Assignment> getUpcomingAssignments(List<Assignment> assignments){
+        List<Assignment> upcomingAssignments = new ArrayList<>();
+        for(Assignment assignment : assignments){
+            Boolean isInNextWeek = false;
+            int dateAfter = 1;
+            while (!isInNextWeek && dateAfter <= 7){
+                Calendar c = Calendar.getInstance();
+                c.setTime(mCurrentDate);
+                c.add(Calendar.DAY_OF_YEAR, dateAfter);
+                String dateAfterCurrentDate = mDateFormat.format(c.getTime());
+                Date dueDate = null;
+                try{
+                    dueDate = mDateFormat.parse(assignment.getDueDate());
+                } catch (java.text.ParseException e) {
+                    e.printStackTrace();
+                }
+                String assignmentDueDate = mDateFormat.format(dueDate);
+                if (dateAfterCurrentDate.equals(assignmentDueDate)){
+                    isInNextWeek = true;
+                }
+                dateAfter += 1;
+            }
+            if (isInNextWeek){
+                upcomingAssignments.add(assignment);
+            }
+        }
+        return upcomingAssignments;
+    }
+
 
     // Get all assignments due on the current day
     private List<Assignment> getAssignmentsDue(List<Assignment> assignments){
@@ -141,9 +197,6 @@ public class PortraitCalendarFragment extends Fragment {
             }
             String currentDate = mDateFormat.format(mCurrentDate);
             String assignmentDueDate = mDateFormat.format(dueDate);
-            System.out.println(currentDate);
-            System.out.println(assignmentDueDate);
-            System.out.println(currentDate.equals(assignmentDueDate));
             if (currentDate.equals(assignmentDueDate)){
                 assignmentsDue.add(assignment);
             }

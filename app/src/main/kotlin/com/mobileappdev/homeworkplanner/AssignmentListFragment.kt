@@ -50,7 +50,8 @@ class AssignmentListFragment : Fragment() {
     }
 
     private inner class AssignmentHolder(inflater: LayoutInflater, parent: ViewGroup) : RecyclerView.ViewHolder(inflater.inflate(R.layout.list_item_assignment, parent, false)), View.OnClickListener {
-        private val mTitleTextView: TextView
+        private val mAssignmentTitleTextView: TextView
+        private val mClassTitleTextView: TextView
         private var mAssignment: Assignment? = null
 
 
@@ -70,12 +71,14 @@ class AssignmentListFragment : Fragment() {
         init {
             itemView.setOnClickListener(this)
 
-            mTitleTextView = itemView.findViewById<View>(R.id.assignment_title) as TextView
+            mClassTitleTextView = itemView.findViewById(R.id.class_title)
+            mAssignmentTitleTextView = itemView.findViewById<View>(R.id.assignment_title) as TextView
         }
 
         fun bind(assignment: Assignment) {
             mAssignment = assignment
-            mTitleTextView.text = mAssignment!!.name
+            mAssignmentTitleTextView.text = mAssignment!!.name
+            mClassTitleTextView.text = mAssignment!!.parentClass + ":"
         }
     }
 
