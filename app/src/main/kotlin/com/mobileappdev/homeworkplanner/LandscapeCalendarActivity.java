@@ -1,5 +1,7 @@
 package com.mobileappdev.homeworkplanner;
 
+import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -10,6 +12,18 @@ import androidx.fragment.app.FragmentManager;
 import com.example.myapplication.R;
 
 public class LandscapeCalendarActivity extends AppCompatActivity {
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+
+        int newOrientation = newConfig.orientation;
+
+        if (newOrientation == Configuration.ORIENTATION_PORTRAIT) {
+            Intent intent = new Intent(this, PortraitCalendarActivity.class);
+            startActivity(intent);
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

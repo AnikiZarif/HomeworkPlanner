@@ -22,11 +22,11 @@
         <activity android:name="com.mobileappdev.homeworkplanner.AddClassActivity"></activity>
         <activity android:name="com.mobileappdev.homeworkplanner.ClassListActivity"></activity>
         <activity android:name="com.mobileappdev.homeworkplanner.AddAssignActivity"></activity>
-        <activity android:name="com.mobileappdev.homeworkplanner.PortraitCalendarActivity"></activity>
+        <activity android:name="com.mobileappdev.homeworkplanner.PortraitCalendarActivity" android:configChanges="orientation|screenSize"></activity>
         <activity android:name="com.mobileappdev.homeworkplanner.ClassInfoActivity"></activity>
         <activity android:name="com.mobileappdev.homeworkplanner.AssignmentListActivity"></activity>
         <activity android:name="com.mobileappdev.homeworkplanner.AssignmentInfoActivity"></activity>
-        <activity android:name="com.mobileappdev.homeworkplanner.LandscapeCalendarActivity"></activity>
+        <activity android:name="com.mobileappdev.homeworkplanner.LandscapeCalendarActivity" android:configChanges="orientation|screenSize"></activity>
     </application>
 
 </manifest>
