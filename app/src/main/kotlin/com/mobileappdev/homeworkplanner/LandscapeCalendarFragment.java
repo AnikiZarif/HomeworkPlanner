@@ -128,19 +128,60 @@ public class LandscapeCalendarFragment extends Fragment {
             mAssignment = assignment;
             mAssignmentName.setText(mAssignment.getName());
 
-            // TODO: Change this to be systematic
-            int workingColor = R.color.working1;
-            int dueDateColor = R.color.due1;
+            // Get color
+            AssignmentColorManager manager = AssignmentColorManager.getInstance();
+            List<Integer> colors = manager.getColors();
+            int workingColor = colors.get(0).intValue();
+            int dueDateColor = colors.get(1).intValue();
 
             // Set color for each day of the week
-            // TODO: set according to assignment duedate
-            mSundayTextView.setBackgroundColor(getResources().getColor(workingColor));
-            mMondayTextView.setBackgroundColor(getResources().getColor(workingColor));
-            mTuesdayTextView.setBackgroundColor(getResources().getColor(workingColor));
-            mWednesdayTextView.setBackgroundColor(getResources().getColor(workingColor));
-            mThursdayTextView.setBackgroundColor(getResources().getColor(workingColor));
-            mFridayTextView.setBackgroundColor(getResources().getColor(workingColor));
-            mSaturdayTextView.setBackgroundColor(getResources().getColor(dueDateColor));
+            // Iterate over each day and fill with necessary color
+            List<TextView> days = new ArrayList<>();
+            days.add(mSundayTextView);
+            days.add(mMondayTextView);
+            days.add(mTuesdayTextView);
+            days.add(mWednesdayTextView);
+            days.add(mThursdayTextView);
+            days.add(mFridayTextView);
+            days.add(mSaturdayTextView);
+            boolean hasBeenFilled = false;
+            for (TextView day : days){
+                day.setBackgroundColor(getResources().getColor(R.color.white));
+            }
+            for (int i = 0; !hasBeenFilled && i < days.size(); i++){
+                // Get current date of the week
+                Date dateOfWeek = mFirstDateOfWeek;
+                Calendar c = Calendar.getInstance();
+                c.setTime(dateOfWeek);
+                c.add(Calendar.DAY_OF_YEAR, i);
+                dateOfWeek = c.getTime();
+
+                // Check if that date corresponds with a work day or due date
+                Date date = null;
+                String dueDate = null;
+                try {
+                    date = mDateFormat.parse(mAssignment.getStartDate());
+                    dueDate = mDateFormat.format(mDateFormat.parse(mAssignment.getDueDate()));
+                } catch(java.text.ParseException e){
+                    e.printStackTrace();
+                }
+                boolean isWorkDay = false;
+                while (!isWorkDay && !mDateFormat.format(date).equals(dueDate)){
+                    if (mDateFormat.format(dateOfWeek).equals(mDateFormat.format(date))) {
+                        isWorkDay = true;
+                        days.get(i).setBackgroundColor(getResources().getColor(workingColor));
+                    }
+                    // Next day
+                    c.setTime(date);
+                    c.add(Calendar.DAY_OF_YEAR, 1);
+                    date = c.getTime();
+                }
+                if (!isWorkDay && mDateFormat.format(dateOfWeek).equals(dueDate)){
+                    hasBeenFilled = true;
+                    days.get(i).setBackgroundColor(getResources().getColor(dueDateColor));
+                }
+            }
+
         }
     }
 
@@ -152,68 +193,66 @@ public class LandscapeCalendarFragment extends Fragment {
         Date lastDayOfWeek = c.getTime();
 
         // Set Current week
-        mCurrentWeekText.setText("Week of " + mDateFormat.format(mCurrentDate) + " - " + mDateFormat.format(lastDayOfWeek));
+        mCurrentWeekText.setText("Week of " + mDateFormat.format(mFirstDateOfWeek) + " - " + mDateFormat.format(lastDayOfWeek));
 
         // Get all assignments due this day
         List<Assignment> assignments = AssignmentList.INSTANCE.getMAssignments();
-        List<Assignment> assignmentsDue = getAssignmentsDue(assignments);
+        List<Assignment> weekAssignments = getWeekAssignments(assignments);
 
-        // Get all assignments due in the next week
-        List<Assignment> upcomingAssignments = getUpcomingAssignments(assignments);
-
-        mDueAssignmentAdapter = new AssignmentAdapter(assignmentsDue);
+        mDueAssignmentAdapter = new AssignmentAdapter(weekAssignments);
         mAssignmentRecyclerView.setAdapter(mDueAssignmentAdapter);
     }
 
-    // Get all assignments due in the next week
-    private List<Assignment> getUpcomingAssignments(List<Assignment> assignments){
-        List<Assignment> upcomingAssignments = new ArrayList<>();
+    // Get all assignments worked on in the current week
+    private List<Assignment> getWeekAssignments(List<Assignment> assignments){
+        List<Assignment> weekAssignments = new ArrayList<>();
         for(Assignment assignment : assignments){
-            Boolean isInNextWeek = false;
-            int dateAfter = 1;
-            while (!isInNextWeek && dateAfter <= 7){
-                Calendar c = Calendar.getInstance();
-                c.setTime(mCurrentDate);
-                c.add(Calendar.DAY_OF_YEAR, dateAfter);
-                String dateAfterCurrentDate = mDateFormat.format(c.getTime());
-                Date dueDate = null;
-                try{
-                    dueDate = mDateFormat.parse(assignment.getDueDate());
-                } catch (java.text.ParseException e) {
-                    e.printStackTrace();
-                }
-                String assignmentDueDate = mDateFormat.format(dueDate);
-                if (dateAfterCurrentDate.equals(assignmentDueDate)){
-                    isInNextWeek = true;
-                }
-                dateAfter += 1;
-            }
-            if (isInNextWeek){
-                upcomingAssignments.add(assignment);
-            }
-        }
-        return upcomingAssignments;
-    }
-
-
-    // Get all assignments due on the current day
-    private List<Assignment> getAssignmentsDue(List<Assignment> assignments){
-        List<Assignment> assignmentsDue = new ArrayList<>();
-        for (Assignment assignment : assignments) {
-            Date dueDate = null;
-            try{
-                dueDate = mDateFormat.parse(assignment.getDueDate());
-            } catch (java.text.ParseException e) {
+            // Get the start date of the assignment
+            Date date = null;
+            String dueDate = null;
+            try {
+                date = mDateFormat.parse(assignment.getStartDate());
+                dueDate = mDateFormat.format(mDateFormat.parse(assignment.getDueDate()));
+            } catch(java.text.ParseException e){
                 e.printStackTrace();
             }
-            String currentDate = mDateFormat.format(mCurrentDate);
-            String assignmentDueDate = mDateFormat.format(dueDate);
-            if (currentDate.equals(assignmentDueDate)){
-                assignmentsDue.add(assignment);
+
+            // Iterate from start date to current date
+            // determine if it is in current week
+            Boolean isInNextWeek = false;
+            while (!isInNextWeek && !mDateFormat.format(date).equals(dueDate)){
+                // Check each date of the current week to see if the date is in it
+                int dateAfter = 0;
+                while (!isInNextWeek && dateAfter < 7){
+                    // Add the the number of day past the first day of the week to get day of week
+                    Calendar c = Calendar.getInstance();
+                    c.setTime(mFirstDateOfWeek);
+                    c.add(Calendar.DAY_OF_YEAR, dateAfter);
+                    String dayOfWeek = mDateFormat.format(c.getTime());
+
+                    // Get day as string
+                    String testDate = mDateFormat.format(date);
+
+                    if (testDate.equals(dayOfWeek)){
+                        isInNextWeek = true;
+                    }
+                    dateAfter += 1;
+                }
+
+                if (isInNextWeek){
+                    weekAssignments.add(assignment);
+                }
+
+                // Next day
+                Calendar c = Calendar.getInstance();
+                c.setTime(date);
+                c.add(Calendar.DAY_OF_YEAR, 1);
+                date = c.getTime();
             }
         }
-        return assignmentsDue;
+        return weekAssignments;
     }
+
 
     private class AssignmentAdapter extends RecyclerView.Adapter<AssignmentHolder>{
         private List<Assignment> mAssignments;
