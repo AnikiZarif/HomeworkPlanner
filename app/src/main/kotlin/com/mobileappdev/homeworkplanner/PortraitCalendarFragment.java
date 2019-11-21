@@ -31,7 +31,6 @@ public class PortraitCalendarFragment extends Fragment {
     private RecyclerView mUpcomingAssignmentRecyclerView;
     private AssignmentAdapter mDueAssignmentAdapter;
     private AssignmentAdapter mUpcomingAssignmentAdapter;
-    private Button mAddAssignmentButton;
     private TextView mCurrentDateText;
     private Button mNextDateButton;
     private Button mPrevDateButton;

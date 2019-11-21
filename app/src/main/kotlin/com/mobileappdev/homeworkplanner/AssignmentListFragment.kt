@@ -34,7 +34,7 @@ class AssignmentListFragment : Fragment() {
 
         mCalendarButton = view.findViewById(R.id.view_calendar_button) as Button
         mCalendarButton!!.setOnClickListener({
-            val intent = Intent(activity, PortraitCalendarActivity::class.java)
+            val intent = Intent(activity, LandscapeCalendarActivity::class.java)
             startActivity(intent)
         })
 
