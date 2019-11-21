@@ -63,6 +63,11 @@ class AssignmentListFragment : Fragment() {
                 putString("dueTime", mAssignment!!.dueTime)
                 putString("dueDate", mAssignment!!.dueDate)
                 putString("importance", mAssignment!!.importance)
+                putString("startDate", mAssignment!!.startDate)
+                putLong("timeEstimate", mAssignment!!.timeEstimate!!)
+                putLong("timeSpent", mAssignment!!.actualTimeSpent!!)
+                putBoolean("completed", mAssignment!!.isComplete!!)
+                putString("documentId", mAssignment!!.documentId)
             }
             assignmentInfoAct.putExtra("assignmentInfo", bundle)
             startActivity(assignmentInfoAct)

@@ -89,6 +89,67 @@
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:layout_marginBottom="8dp"
+        android:labelFor="@id/assignment_start_date_info"
+        android:text="@string/assign_start_date"
+        android:textColor="@android:color/primary_text_light"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/assignment_start_date_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:singleLine="true" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="8dp"
+        android:labelFor="@id/assignment_time_estimate_info"
+        android:text="@string/assign_time_estimate"
+        android:textColor="@android:color/primary_text_light"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/assignment_time_estimate_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:singleLine="true" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="8dp"
+        android:labelFor="@id/assign_actual_time_info_text"
+        android:text="@string/assign_time_spent"
+        android:textColor="@android:color/primary_text_light"
+        android:textSize="18sp" />
+
+    <EditText
+        android:id="@+id/assign_actual_time_info_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:inputType="number"
+        android:singleLine="true" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="8dp"
         android:labelFor="@id/assignment_importance_info"
         android:text="@string/importance"
         android:textColor="@android:color/primary_text_light"
@@ -103,16 +164,40 @@
         android:layout_marginRight="16dp"
         android:singleLine="true" />
 
-    <Button
-        android:id="@+id/delete_assign_button2"
-        android:layout_width="wrap_content"
+    <Switch
+        android:id="@+id/assign_completed_switch"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom|center_horizontal"
-        android:layout_margin="40dp"
-        android:gravity="center"
-        android:background="@drawable/roundshapebtn"
-        android:textColor="#FFFFFF"
-        android:text="@string/delete_assignment"
-        android:textSize="20sp"/>
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:text="@string/assign_completed" />
 
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <Button
+            android:id="@+id/edit_assign_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="40dp"
+            android:gravity="center"
+            android:background="@drawable/roundshapebtn"
+            android:textColor="#FFFFFF"
+            android:text="@string/done"
+            android:textSize="20sp"/>
+
+        <Button
+            android:id="@+id/delete_assign_button2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|start"
+            android:layout_margin="40dp"
+            android:gravity="center"
+            android:background="@drawable/roundshapebtn"
+            android:textColor="#FFFFFF"
+            android:text="@string/delete_assignment"
+            android:textSize="20sp"/>
+    </FrameLayout>
 </LinearLayout>

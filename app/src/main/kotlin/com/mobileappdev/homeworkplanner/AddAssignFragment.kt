@@ -105,14 +105,16 @@ class AddAssignFragment: ClassAssignFragment(), View.OnClickListener {
         val dueTime = mDueTimeTextView.text.toString()
         val dueDate = mDueDateTextView.text.toString()
         val startDate = mStartDateTextView.text.toString()
-        val timeEstimate = mTimeEstimateEditText.text.toString().toInt()
+        val timeEstimate = mTimeEstimateEditText.text.toString().toLong()
         val item = hashMapOf(
                 "assignmentName" to assignName,
                 "importance" to imp,
                 "dueTime" to dueTime,
                 "dueDate" to dueDate,
                 "startDate" to startDate,
-                "timeEstimate" to timeEstimate
+                "timeEstimate" to timeEstimate,
+                "isComplete" to false,
+                "timeSpent" to 0
         )
         var classDocumentId = ""
         for (c in ClassSchedule.mClasses) {
@@ -127,7 +129,7 @@ class AddAssignFragment: ClassAssignFragment(), View.OnClickListener {
                 .add(item)
                 .addOnSuccessListener{DocumentReference->
                     item["className"] = className
-                    AssignmentList.createAssignment(item)
+                    AssignmentList.createAssignment(item, DocumentReference.id)
                     Log.d(TAG, "Added assignment with ${DocumentReference.id}")
                     Toast.makeText(activity!!,"Added Assignment",Toast.LENGTH_LONG).show()
                     activity!!.finish()

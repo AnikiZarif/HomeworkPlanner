@@ -8,6 +8,7 @@ class Assignment {
     var importance: String? = null
     var startDate: String? = null
     var isComplete: Boolean? = false
-    var timeEstimate: Int? = null
-    var actualTimeSpent: Int? = null
+    var timeEstimate: Long = 0
+    var actualTimeSpent: Long = 0
+    var documentId: String? = null
 }
